@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BENART Morocco - Rapport Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BENART Morocco - Rapport Interactif</title>
 
   <style>
+    :root{
+      --black:#030303;
+      --dark:#070b08;
+      --green:#00e676;
+      --green2:#0b8f4a;
+      --red:#e01928;
+      --blue:#3973d7;
+      --teal:#43858c;
+      --white:#ffffff;
+      --text:#101010;
+      --muted:#5f6670;
+      --paper:#ffffff;
+      --bg:#eef3fa;
+      --border:#d9e0ea;
+      --shadow:0 25px 70px rgba(0,0,0,.14);
+      --radius:28px;
+    }
+
     *{
       box-sizing:border-box;
       margin:0;
@@ -17,208 +35,261 @@
     }
 
     body{
-      font-family: Arial, Helvetica, sans-serif;
-      background:#f3f6fb;
-      color:#111;
-      line-height:1.55;
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(0,230,118,.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(224,25,40,.10), transparent 32%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.65;
+    }
+
+    img{
+      max-width:100%;
+      display:block;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
     }
 
     header{
       position:sticky;
       top:0;
-      z-index:1000;
-      background:#ffffff;
-      border-bottom:1px solid #d8dce5;
-      box-shadow:0 4px 20px rgba(0,0,0,0.08);
+      z-index:999;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(0,0,0,.08);
+      box-shadow:0 10px 30px rgba(0,0,0,.07);
     }
 
     .nav{
-      width:95%;
-      max-width:1250px;
+      width:min(1280px,94%);
       margin:auto;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:20px;
+      gap:24px;
       padding:12px 0;
     }
 
     .brand{
       display:flex;
       align-items:center;
-      gap:12px;
-      font-weight:bold;
-      color:#111;
-      text-decoration:none;
+      gap:14px;
+      font-weight:900;
+      letter-spacing:2px;
+      min-width:210px;
     }
 
     .brand img{
-      width:80px;
-      height:auto;
-      object-fit:contain;
+      width:78px;
+      height:50px;
+      object-fit:cover;
+      background:#000;
+      border-radius:3px;
     }
 
     .brand span{
-      font-size:18px;
-      letter-spacing:1px;
+      display:block;
+      font-size:20px;
+      line-height:1.2;
+      color:#111;
     }
 
     nav{
       display:flex;
       flex-wrap:wrap;
-      gap:14px;
+      justify-content:flex-end;
+      gap:16px 22px;
       font-size:14px;
+      font-weight:800;
+      color:#183b75;
     }
 
     nav a,
-    .print-btn{
-      color:#1d3f7a;
-      text-decoration:none;
-      font-weight:bold;
-      border:none;
-      background:none;
+    nav button{
+      border:0;
+      background:transparent;
       cursor:pointer;
-      font-size:14px;
+      font:inherit;
+      color:#183b75;
+      transition:.2s;
     }
 
     nav a:hover,
-    .print-btn:hover{
-      color:#2f80ed;
+    nav button:hover{
+      color:var(--green2);
+      transform:translateY(-1px);
     }
 
     .hero{
-      background:#050505;
+      background:#000;
       color:white;
-      padding:45px 0;
+      padding:70px 0 72px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(224,25,40,.23), transparent 32%),
+        radial-gradient(circle at 85% 25%, rgba(0,230,118,.20), transparent 35%),
+        linear-gradient(180deg, rgba(0,0,0,.2), #000);
+      pointer-events:none;
     }
 
     .hero-inner{
-      width:95%;
-      max-width:1250px;
+      width:min(1280px,92%);
       margin:auto;
+      position:relative;
+      z-index:1;
     }
 
-    .hero-top{
+    .image-grid{
       display:grid;
       grid-template-columns:1fr 1fr 1fr;
-      gap:18px;
-      align-items:center;
+      gap:24px;
+      align-items:stretch;
     }
 
-    .hero-top img{
+    .hero-image{
+      height:280px;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 24px 60px rgba(0,0,0,.55);
+      background:#030303;
+    }
+
+    .hero-image img{
       width:100%;
-      height:260px;
+      height:100%;
       object-fit:cover;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.15);
-      box-shadow:0 20px 45px rgba(0,0,0,0.45);
     }
 
-    .hero-top .logo-box{
-      background:#000;
+    .hero-image.logo{
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:20px;
-      height:260px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.15);
+      padding:25px;
     }
 
-    .hero-top .logo-box img{
-      height:100%;
+    .hero-image.logo img{
       object-fit:contain;
-      box-shadow:none;
-      border:none;
+      filter:drop-shadow(0 0 25px rgba(255,255,255,.75));
     }
 
     .hero-title{
-      margin-top:30px;
       text-align:center;
+      margin-top:44px;
     }
 
     .hero-title h1{
-      font-size:46px;
-      letter-spacing:2px;
-      margin-bottom:8px;
+      font-size:clamp(42px,5vw,72px);
+      letter-spacing:4px;
+      line-height:1;
+      margin-bottom:18px;
+      text-transform:uppercase;
     }
 
     .hero-title p{
-      font-size:18px;
-      color:#d8d8d8;
+      font-size:21px;
+      color:#d7dce4;
     }
 
     .document{
-      width:95%;
-      max-width:1100px;
-      margin:35px auto;
-      background:#fff;
-      padding:55px 70px;
-      border-radius:8px;
-      box-shadow:0 10px 40px rgba(0,0,0,0.12);
+      width:min(1080px,92%);
+      margin:44px auto;
+      background:var(--paper);
+      border-radius:26px;
+      padding:64px 76px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.8);
     }
 
     section{
-      margin-bottom:48px;
-      scroll-margin-top:90px;
+      scroll-margin-top:115px;
+      margin-bottom:58px;
+      padding-bottom:12px;
+      border-bottom:1px solid #edf0f5;
     }
 
-    h1.doc-title{
-      color:#111;
-      font-size:34px;
-      margin-bottom:25px;
-      text-align:center;
+    section:last-child{
+      border-bottom:0;
     }
 
     h2{
-      color:#3973d7;
-      font-size:32px;
-      line-height:1.2;
-      margin:35px 0 18px;
+      color:var(--blue);
+      font-size:36px;
+      line-height:1.18;
+      margin:12px 0 22px;
+      letter-spacing:-.5px;
     }
 
     h3{
-      color:#43858c;
-      font-size:24px;
-      margin:25px 0 12px;
+      color:var(--teal);
+      font-size:27px;
+      margin:30px 0 14px;
+      line-height:1.25;
     }
 
     h4{
-      color:#111;
       font-size:18px;
-      margin:18px 0 10px;
+      margin:22px 0 8px;
+      color:#000;
     }
 
     p{
-      margin:10px 0;
+      margin:11px 0;
       font-size:16px;
     }
 
     ul{
-      margin:10px 0 18px 35px;
+      margin:12px 0 20px 32px;
     }
 
     li{
-      margin:5px 0;
+      margin:6px 0;
+      font-size:16px;
+    }
+
+    strong{
+      font-weight:900;
+    }
+
+    .table-wrap{
+      width:100%;
+      overflow-x:auto;
+      margin:20px 0 30px;
+      border-radius:14px;
+      border:1px solid #bfc7d4;
+      background:white;
+      box-shadow:0 12px 28px rgba(0,0,0,.06);
     }
 
     table{
       width:100%;
       border-collapse:collapse;
-      margin:18px 0 28px;
       font-size:14px;
+      min-width:760px;
     }
 
     th,td{
-      border:1px solid #333;
-      padding:9px 10px;
-      vertical-align:top;
+      border:1px solid #222;
+      padding:10px 11px;
       text-align:left;
+      vertical-align:top;
     }
 
     th{
       background:#dbeafc;
-      font-weight:bold;
+      color:#111;
+      font-weight:900;
     }
 
     .blue-table th{
@@ -228,74 +299,68 @@
     .blue-table td:first-child,
     .blue-table th:first-child{
       background:#a9cdef;
-      font-weight:bold;
+      font-weight:900;
     }
 
-    .small-table{
-      max-width:760px;
-      margin-left:auto;
-      margin-right:auto;
-      text-align:center;
-      font-size:16px;
+    .total-row td{
+      font-weight:900;
+      background:#eef6ff;
     }
 
-    .small-table td{
-      text-align:center;
-      font-size:17px;
-      padding:13px;
+    .conclusion-box{
+      background:linear-gradient(135deg,rgba(57,115,215,.09),rgba(0,230,118,.08));
+      border-left:6px solid var(--blue);
+      border-radius:16px;
+      padding:22px 26px;
+      margin:24px 0;
     }
 
-    .note{
-      color:#333;
-      font-weight:bold;
+    .print-note{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:900;
+      background:#111;
+      color:white;
+      border:1px solid rgba(255,255,255,.2);
+      padding:13px 18px;
+      border-radius:999px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 16px 35px rgba(0,0,0,.3);
     }
 
-    .conclusion-title{
-      color:#43858c;
-      font-size:28px;
-      font-weight:bold;
-      margin-top:25px;
-    }
-
-    .recap{
-      background:#f5f9ff;
-      border-left:5px solid #3973d7;
-      padding:15px 20px;
-      margin:20px 0;
-    }
-
-    @media(max-width:900px){
-      .document{
-        padding:30px 20px;
-      }
-
-      .hero-top{
-        grid-template-columns:1fr;
-      }
-
+    @media(max-width:1000px){
       nav{
         display:none;
       }
 
-      h2{
-        font-size:26px;
+      .image-grid{
+        grid-template-columns:1fr;
       }
 
-      table{
-        display:block;
-        overflow-x:auto;
-        white-space:normal;
+      .document{
+        padding:34px 22px;
+      }
+
+      h2{
+        font-size:30px;
+      }
+
+      h3{
+        font-size:24px;
       }
     }
 
     @media print{
       header,
-      .hero{
-        display:none;
+      .hero,
+      .print-note{
+        display:none !important;
       }
 
       body{
-        background:#fff;
+        background:white;
       }
 
       .document{
@@ -304,11 +369,16 @@
         margin:0;
         padding:25px;
         box-shadow:none;
+        border:0;
         border-radius:0;
       }
 
       section{
         page-break-inside:auto;
+      }
+
+      .table-wrap{
+        box-shadow:none;
       }
     }
   </style>
@@ -318,9 +388,9 @@
 
 <header>
   <div class="nav">
-    <a class="brand" href="#top">
+    <a href="#top" class="brand">
       <img src="benart-logo.png" alt="Logo BENART">
-      <span>BENART Morocco</span>
+      <span>BENART<br>Morocco</span>
     </a>
 
     <nav>
@@ -335,19 +405,27 @@
       <a href="#finance">Étude financière</a>
       <a href="#communication">Communication</a>
       <a href="#contraintes">Contraintes</a>
-      <button class="print-btn" onclick="window.print()">Exporter PDF</button>
+      <button onclick="window.print()">Exporter PDF</button>
     </nav>
   </div>
 </header>
 
+<button class="print-note" onclick="window.print()">Exporter PDF</button>
+
 <div class="hero" id="top">
   <div class="hero-inner">
-    <div class="hero-top">
-      <img src="benart-drop-wydad-placeholder.jpg" alt="BENART visuel rouge">
-      <div class="logo-box">
+    <div class="image-grid">
+      <div class="hero-image">
+        <img src="benart-drop-wydad-placeholder.jpg" alt="BENART visuel rouge">
+      </div>
+
+      <div class="hero-image logo">
         <img src="benart-logo.png" alt="Logo BENART">
       </div>
-      <img src="benart-drop-raja.jpg" alt="BENART visuel vert">
+
+      <div class="hero-image">
+        <img src="benart-drop-raja.jpg" alt="BENART visuel vert">
+      </div>
     </div>
 
     <div class="hero-title">
@@ -359,89 +437,70 @@
 
 <main class="document">
 
-  <section id="concept">
-    <h2>1. Concept</h2>
+<section id="concept">
+  <h2>1. Concept</h2>
 
-    <h4>Nom du projet</h4>
-    <p>BENART Morocco</p>
+  <h4>Nom du projet</h4>
+  <p>BENART Morocco</p>
 
-    <h4>Description</h4>
-    <p>
-      BENART Morocco est une plateforme e-commerce spécialisée dans la conception, la
-      personnalisation et la commercialisation de casquettes premium inspirées de l’univers du
-      football marocain. La marque puise son inspiration dans l’histoire des clubs de la Botola Pro,
-      la culture des supporters, les tifos, les événements marquants des saisons sportives ainsi
-      que l’identité visuelle propre à chaque communauté de fans.
-    </p>
+  <h4>Description</h4>
+  <p>BENART Morocco est une plateforme e-commerce spécialisée dans la conception, la personnalisation et la commercialisation de casquettes premium inspirées de l’univers du football marocain. La marque puise son inspiration dans l’histoire des clubs de la Botola Pro, la culture des supporters, les tifos, les événements marquants des saisons sportives ainsi que l’identité visuelle propre à chaque communauté de fans.</p>
 
-    <p>
-      L’entreprise adopte un modèle de production en séries limitées afin de renforcer l’exclusivité
-      de ses collections et de créer une valeur émotionnelle forte auprès des consommateurs.
-      Chaque modèle de casquette est associé à une histoire, un événement ou un symbole
-      représentatif de la culture footballistique marocaine.
-    </p>
-  </section>
+  <p>L’entreprise adopte un modèle de production en séries limitées afin de renforcer l’exclusivité de ses collections et de créer une valeur émotionnelle forte auprès des consommateurs. Chaque modèle de casquette est associé à une histoire, un événement ou un symbole représentatif de la culture footballistique marocaine.</p>
+</section>
 
-  <section id="originalite">
-    <h2>2. Originalité de l'idée</h2>
+<section id="originalite">
+  <h2>2. Originalité de l'idée</h2>
 
-    <p>
-      Contrairement aux boutiques sportives traditionnelles qui commercialisent principalement
-      des produits standardisés aux couleurs des clubs, BENART Morocco propose une approche
-      fondée sur le storytelling, la personnalisation et l’exclusivité.
-    </p>
+  <p>Contrairement aux boutiques sportives traditionnelles qui commercialisent principalement des produits standardisés aux couleurs des clubs, BENART Morocco propose une approche fondée sur le storytelling, la personnalisation et l’exclusivité.</p>
 
-    <p>L’originalité du projet repose sur plusieurs éléments :</p>
+  <p>L’originalité du projet repose sur plusieurs éléments :</p>
 
-    <ul>
-      <li>Création de collections limitées inspirées de moments emblématiques du football marocain.</li>
-      <li>Valorisation de la culture des tribunes et des supporters à travers des designs originaux.</li>
-      <li>Personnalisation avancée des produits selon les préférences du client.</li>
-      <li>Association de chaque collection à un récit ou à un événement marquant afin de renforcer l’engagement émotionnel des consommateurs.</li>
-      <li>Positionnement à mi-chemin entre le merchandising sportif, la mode urbaine et les objets de collection.</li>
-    </ul>
-  </section>
+  <ul>
+    <li>Création de collections limitées inspirées de moments emblématiques du football marocain.</li>
+    <li>Valorisation de la culture des tribunes et des supporters à travers des designs originaux.</li>
+    <li>Personnalisation avancée des produits selon les préférences du client.</li>
+    <li>Association de chaque collection à un récit ou à un événement marquant afin de renforcer l’engagement émotionnel des consommateurs.</li>
+    <li>Positionnement à mi-chemin entre le merchandising sportif, la mode urbaine et les objets de collection.</li>
+  </ul>
+</section>
 
-  <section id="novateur">
-    <h2>3. Aspect novateur</h2>
+<section id="novateur">
+  <h2>3. Aspect novateur</h2>
 
-    <h3>Innovation produit</h3>
+  <h3>Innovation produit</h3>
 
-    <p>
-      BENART Morocco introduit un concept de casquettes premium inspirées de l’actualité
-      sportive nationale et de l’univers des supporters marocains.
-    </p>
+  <p>BENART Morocco introduit un concept de casquettes premium inspirées de l’actualité sportive nationale et de l’univers des supporters marocains.</p>
 
-    <p>Les principales innovations produits sont :</p>
+  <p>Les principales innovations produits sont :</p>
 
-    <ul>
-      <li>Collections inspirées des événements marquants des clubs et des groupes de supporters.</li>
-      <li>Éditions limitées et numérotées afin de renforcer la rareté des produits.</li>
-      <li>Collections saisonnières renouvelées selon l’actualité de la Botola Pro.</li>
-      <li>Personnalisation des modèles selon les préférences des clients.</li>
-    </ul>
+  <ul>
+    <li>Collections inspirées des événements marquants des clubs et des groupes de supporters.</li>
+    <li>Éditions limitées et numérotées afin de renforcer la rareté des produits.</li>
+    <li>Collections saisonnières renouvelées selon l’actualité de la Botola Pro.</li>
+    <li>Personnalisation des modèles selon les préférences des clients.</li>
+  </ul>
 
-    <h3>Innovation digitale</h3>
+  <h3>Innovation digitale</h3>
 
-    <p>
-      L’innovation numérique constitue un élément central du projet.
-    </p>
+  <p>L’innovation numérique constitue un élément central du projet.</p>
 
-    <p>Les principales fonctionnalités innovantes envisagées sont :</p>
+  <p>Les principales fonctionnalités innovantes envisagées sont :</p>
 
-    <ul>
-      <li>Système de recommandation basé sur l’intelligence artificielle permettant de suggérer des produits adaptés aux préférences de chaque utilisateur.</li>
-      <li>Module d’essayage virtuel en réalité augmentée permettant aux clients de visualiser les casquettes avant achat.</li>
-      <li>Outil de personnalisation assisté par intelligence artificielle permettant de générer des designs uniques à partir des préférences et inspirations fournies par l’utilisateur.</li>
-      <li>Analyse des comportements d’achat afin d’améliorer continuellement l’expérience utilisateur et les recommandations produits.</li>
-    </ul>
-  </section>
+  <ul>
+    <li>Système de recommandation basé sur l’intelligence artificielle permettant de suggérer des produits adaptés aux préférences de chaque utilisateur.</li>
+    <li>Module d’essayage virtuel en réalité augmentée permettant aux clients de visualiser les casquettes avant achat.</li>
+    <li>Outil de personnalisation assisté par intelligence artificielle permettant de générer des designs uniques à partir des préférences et inspirations fournies par l’utilisateur.</li>
+    <li>Analyse des comportements d’achat afin d’améliorer continuellement l’expérience utilisateur et les recommandations produits.</li>
+  </ul>
+</section>
 
-  <section id="benchmark">
-    <h2>4. Benchmark</h2>
+<section id="benchmark">
+  <h2>4. Benchmark</h2>
 
-    <h3>4.1 Concurrents directs nationaux</h3>
+  <h3>4.1 Concurrents directs nationaux</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -466,9 +525,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>4.2 Concurrents indirects nationaux</h3>
+  <h3>4.2 Concurrents indirects nationaux</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -499,9 +560,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>4.3 Concurrents directs internationaux</h3>
+  <h3>4.3 Concurrents directs internationaux</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -526,9 +589,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>4.4 Concurrents indirects internationaux</h3>
+  <h3>4.4 Concurrents indirects internationaux</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -565,13 +630,15 @@
         </tr>
       </tbody>
     </table>
-  </section>
+  </div>
+</section>
 
-  <section id="swot">
-    <h2>5. Analyse SWOT des concurrents</h2>
+<section id="swot">
+  <h2>5. Analyse SWOT des concurrents</h2>
 
-    <h3>HODHOD Concept</h3>
+  <h3>HODHOD Concept</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -608,9 +675,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Capslab Maroc</h3>
+  <h3>Capslab Maroc</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -647,9 +716,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Raja Shop</h3>
+  <h3>Raja Shop</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -686,9 +757,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Wydad Shop</h3>
+  <h3>Wydad Shop</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -725,9 +798,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>FRMF Store</h3>
+  <h3>FRMF Store</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -764,9 +839,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>New Era</h3>
+  <h3>New Era</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -803,9 +880,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Mitchell & Ness</h3>
+  <h3>Mitchell & Ness</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -842,9 +921,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Nike / Adidas / Puma / Under Armour (groupe)</h3>
+  <h3>Nike / Adidas / Puma / Under Armour (groupe)</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -881,24 +962,26 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
+  <div class="conclusion-box">
     <h3>Conclusion</h3>
-
     <p>BENART se positionne dans une <strong>zone encore peu occupée</strong> :</p>
-
     <ul>
       <li>Plus premium et storytelling que les boutiques de clubs</li>
       <li>Plus émotionnel que les équipementiers sportifs</li>
       <li>Plus spécialisé football marocain que les marques lifestyle</li>
       <li>Plus innovant (IA + personnalisation + collections limitées)</li>
     </ul>
-  </section>
+  </div>
+</section>
 
-  <section id="fonctionnalites">
-    <h2>6. Analyse des fonctionnalités des sites web des concurrents</h2>
+<section id="fonctionnalites">
+  <h2>6. Analyse des fonctionnalités des sites web des concurrents</h2>
 
-    <h3>6.1 Analyse fonctionnelle détaillée</h3>
+  <h3>6.1 Analyse fonctionnelle détaillée</h3>
 
+  <div class="table-wrap">
     <table class="blue-table">
       <thead>
         <tr>
@@ -914,269 +997,43 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Catalogue produits structuré</td>
-          <td>✓</td>
-          <td>site suspendu</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Fiches produits détaillées</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Galerie images produit</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Panier d’achat</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Compte client</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Paiement en ligne</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Paiement à la livraison</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>x, point de vente</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Suivi de commande</td>
-          <td>✓, Whatsapp</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Recherche interne</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Filtrage produits</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Wishlist / favoris</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>-</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Newsletter</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Blog / contenu éditorial</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Avis clients</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Collections limitées</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Storytelling produit</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓✓</td>
-        </tr>
-        <tr>
-          <td>Personnalisation produit</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Recommandation IA</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Génération design IA</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Essayage virtuel (AR)</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>Mobile responsive</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>✓</td>
-        </tr>
-        <tr>
-          <td>UX orientée storytelling</td>
-          <td>x</td>
-          <td>x</td>
-          <td>x</td>
-          <td>-</td>
-          <td>✓</td>
-          <td>✓</td>
-          <td>x</td>
-          <td>✓</td>
-        </tr>
+        <tr><td>Catalogue produits structuré</td><td>✓</td><td>site suspendu</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Fiches produits détaillées</td><td>✓</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Galerie images produit</td><td>✓</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Panier d’achat</td><td>✓</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Compte client</td><td>✓</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Paiement en ligne</td><td>x</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Paiement à la livraison</td><td>✓</td><td>x</td><td>x, point de vente</td><td>x</td><td>x</td><td>x</td><td>x</td><td>✓</td></tr>
+        <tr><td>Suivi de commande</td><td>✓, Whatsapp</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Recherche interne</td><td>✓</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Filtrage produits</td><td>✓</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Wishlist / favoris</td><td>x</td><td>x</td><td>x</td><td>-</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Newsletter</td><td>✓</td><td>x</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Blog / contenu éditorial</td><td>x</td><td>x</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>x</td><td>✓</td></tr>
+        <tr><td>Avis clients</td><td>x</td><td>x</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Collections limitées</td><td>x</td><td>x</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Storytelling produit</td><td>x</td><td>x</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓✓</td></tr>
+        <tr><td>Personnalisation produit</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>✓</td></tr>
+        <tr><td>Recommandation IA</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>✓</td></tr>
+        <tr><td>Génération design IA</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>✓</td></tr>
+        <tr><td>Essayage virtuel (AR)</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>x</td><td>✓</td></tr>
+        <tr><td>Mobile responsive</td><td>✓</td><td>x</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>UX orientée storytelling</td><td>x</td><td>x</td><td>x</td><td>-</td><td>✓</td><td>✓</td><td>x</td><td>✓</td></tr>
       </tbody>
     </table>
-  </section>
+  </div>
+</section>
 
-  <section id="industrie">
-    <h2>7. Faisabilité industrielle du projet</h2>
+<section id="industrie">
+  <h2>7. Faisabilité industrielle du projet</h2>
 
-    <h3>Modèle industriel retenu</h3>
+  <h3>Modèle industriel retenu</h3>
 
-    <p>
-      BENART adoptera un modèle OEM (Original Equipment Manufacturer). L'entreprise se
-      concentrera sur la conception des collections, le design graphique, le marketing digital et la
-      commercialisation, tandis que la fabrication des casquettes sera confiée à un partenaire
-      industriel spécialisé.
-    </p>
+  <p>BENART adoptera un modèle OEM (Original Equipment Manufacturer). L'entreprise se concentrera sur la conception des collections, le design graphique, le marketing digital et la commercialisation, tandis que la fabrication des casquettes sera confiée à un partenaire industriel spécialisé.</p>
 
-    <p>
-      Le fournisseur OEM prendra en charge l'ensemble du processus de production selon les
-      spécifications fournies par BENART :
-    </p>
+  <p>Le fournisseur OEM prendra en charge l'ensemble du processus de production selon les spécifications fournies par BENART :</p>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1185,44 +1042,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Forme de la casquette</td>
-          <td>Snapback, Trucker, Dad Cap, Baseball Cap, etc.</td>
-        </tr>
-        <tr>
-          <td>Matière textile</td>
-          <td>Coton, polyester, coton premium, matières recyclées</td>
-        </tr>
-        <tr>
-          <td>Couleurs</td>
-          <td>Personnalisation complète selon les collections</td>
-        </tr>
-        <tr>
-          <td>Broderies</td>
-          <td>Logos, textes, symboles et illustrations</td>
-        </tr>
-        <tr>
-          <td>Étiquettes tissées</td>
-          <td>Branding BENART</td>
-        </tr>
-        <tr>
-          <td>Étiquettes d'entretien</td>
-          <td>Conformité réglementaire</td>
-        </tr>
-        <tr>
-          <td>Packaging</td>
-          <td>Boîtes, stickers et emballages personnalisés</td>
-        </tr>
+        <tr><td>Forme de la casquette</td><td>Snapback, Trucker, Dad Cap, Baseball Cap, etc.</td></tr>
+        <tr><td>Matière textile</td><td>Coton, polyester, coton premium, matières recyclées</td></tr>
+        <tr><td>Couleurs</td><td>Personnalisation complète selon les collections</td></tr>
+        <tr><td>Broderies</td><td>Logos, textes, symboles et illustrations</td></tr>
+        <tr><td>Étiquettes tissées</td><td>Branding BENART</td></tr>
+        <tr><td>Étiquettes d'entretien</td><td>Conformité réglementaire</td></tr>
+        <tr><td>Packaging</td><td>Boîtes, stickers et emballages personnalisés</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <p>
-      Cette approche permet d'obtenir des produits exclusifs tout en évitant les investissements
-      lourds dans des équipements industriels.
-    </p>
+  <p>Cette approche permet d'obtenir des produits exclusifs tout en évitant les investissements lourds dans des équipements industriels.</p>
 
-    <h3>Normes de qualité à respecter</h3>
+  <h3>Normes de qualité à respecter</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1231,31 +1066,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>ISO 9001</td>
-          <td>Management de la qualité</td>
-        </tr>
-        <tr>
-          <td>OEKO-TEX Standard 100</td>
-          <td>Sécurité des textiles</td>
-        </tr>
-        <tr>
-          <td>REACH (Union Européenne)</td>
-          <td>Contrôle des substances chimiques</td>
-        </tr>
-        <tr>
-          <td>Règlement UE 1007/2011</td>
-          <td>Étiquetage des fibres textiles</td>
-        </tr>
-        <tr>
-          <td>Normes IMANOR</td>
-          <td>Conformité au marché marocain</td>
-        </tr>
+        <tr><td>ISO 9001</td><td>Management de la qualité</td></tr>
+        <tr><td>OEKO-TEX Standard 100</td><td>Sécurité des textiles</td></tr>
+        <tr><td>REACH (Union Européenne)</td><td>Contrôle des substances chimiques</td></tr>
+        <tr><td>Règlement UE 1007/2011</td><td>Étiquetage des fibres textiles</td></tr>
+        <tr><td>Normes IMANOR</td><td>Conformité au marché marocain</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Fournisseurs potentiels (modèle OEM BENART – sélection optimisée)</h3>
+  <h3>Fournisseurs potentiels (modèle OEM BENART – sélection optimisée)</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1290,39 +1112,31 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Conclusion</h3>
+  <h3>Conclusion</h3>
 
-    <p>
-      Le choix des fournisseurs pour BENART repose sur une logique de compromis entre coût,
-      qualité et flexibilité industrielle :
-    </p>
+  <p>Le choix des fournisseurs pour BENART repose sur une logique de compromis entre coût, qualité et flexibilité industrielle :</p>
 
-    <ul>
-      <li>Le Maroc est adapté aux tests de marché et aux petites séries grâce à sa proximité et sa flexibilité.</li>
-      <li>La Turquie constitue le meilleur équilibre global pour la production régulière de collections premium.</li>
-      <li>La Chine permet une industrialisation à grande échelle avec des coûts unitaires très compétitifs.</li>
-    </ul>
+  <ul>
+    <li>Le Maroc est adapté aux tests de marché et aux petites séries grâce à sa proximité et sa flexibilité.</li>
+    <li>La Turquie constitue le meilleur équilibre global pour la production régulière de collections premium.</li>
+    <li>La Chine permet une industrialisation à grande échelle avec des coûts unitaires très compétitifs.</li>
+  </ul>
 
-    <p>
-      BENART adopte une stratégie de sourcing multi-pays combinant le Maroc, la Turquie et la
-      Chine afin d’optimiser ses coûts de production, garantir la qualité des produits et assurer
-      une montée en puissance progressive de ses volumes de production.
-    </p>
-  </section>
+  <p>BENART adopte une stratégie de sourcing multi-pays combinant le Maroc, la Turquie et la Chine afin d’optimiser ses coûts de production, garantir la qualité des produits et assurer une montée en puissance progressive de ses volumes de production.</p>
+</section>
 
-  <section id="technique">
-    <h2>8. Faisabilité technique du projet BENART</h2>
+<section id="technique">
+  <h2>8. Faisabilité technique du projet BENART</h2>
 
-    <h3>1. Prérequis techniques (équipe nécessaire)</h3>
+  <h3>1. Prérequis techniques (équipe nécessaire)</h3>
 
-    <p>
-      La réalisation de BENART nécessite une équipe multidisciplinaire couvrant la création
-      produit, la production, marketing digital et la construction de marque et commercialisation.
-    </p>
+  <p>La réalisation de BENART nécessite une équipe multidisciplinaire couvrant la création produit, la production, marketing digital et la construction de marque et commercialisation.</p>
 
-    <h3>A. Équipe création produit & production</h3>
+  <h3>A. Équipe création produit & production</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1331,40 +1145,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Designer produit / Directeur artistique</td>
-          <td>Création de l’identité visuelle des collections, concepts des casquettes, logos, motifs et direction artistique</td>
-        </tr>
-        <tr>
-          <td>Designer graphique</td>
-          <td>Création des visuels, broderies, patchs, éléments graphiques et supports marketing</td>
-        </tr>
-        <tr>
-          <td>Responsable production textile</td>
-          <td>Gestion de la fabrication, choix des matières, suivi des fournisseurs et organisation de la production</td>
-        </tr>
-        <tr>
-          <td>Opérateur machines textiles</td>
-          <td>Utilisation des machines de broderie, couture et personnalisation</td>
-        </tr>
-        <tr>
-          <td>Responsable contrôle qualité</td>
-          <td>Vérification des finitions, conformité des produits et qualité finale</td>
-        </tr>
-        <tr>
-          <td>Responsable approvisionnement</td>
-          <td>Gestion des fournisseurs, matières premières et stocks</td>
-        </tr>
+        <tr><td>Designer produit / Directeur artistique</td><td>Création de l’identité visuelle des collections, concepts des casquettes, logos, motifs et direction artistique</td></tr>
+        <tr><td>Designer graphique</td><td>Création des visuels, broderies, patchs, éléments graphiques et supports marketing</td></tr>
+        <tr><td>Responsable production textile</td><td>Gestion de la fabrication, choix des matières, suivi des fournisseurs et organisation de la production</td></tr>
+        <tr><td>Opérateur machines textiles</td><td>Utilisation des machines de broderie, couture et personnalisation</td></tr>
+        <tr><td>Responsable contrôle qualité</td><td>Vérification des finitions, conformité des produits et qualité finale</td></tr>
+        <tr><td>Responsable approvisionnement</td><td>Gestion des fournisseurs, matières premières et stocks</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>B. Équipe communication digitale & branding</h3>
+  <h3>B. Équipe communication digitale & branding</h3>
 
-    <p>
-      Cette équipe est essentielle pour transformer BENART en marque culturelle autour du
-      football marocain grâce au storytelling et à une identité forte.
-    </p>
+  <p>Cette équipe est essentielle pour transformer BENART en marque culturelle autour du football marocain grâce au storytelling et à une identité forte.</p>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1373,43 +1168,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Brand Manager</td>
-          <td>Définition de la stratégie de marque, positionnement, valeurs et cohérence de l’identité BENART</td>
-        </tr>
-        <tr>
-          <td>Content Creator / Créateur de contenu</td>
-          <td>Production de photos, vidéos, reels, interviews, contenus lifestyle et contenus liés à la culture supporters</td>
-        </tr>
-        <tr>
-          <td>Photographe / Vidéaste</td>
-          <td>Création de contenus visuels professionnels : shootings produits, campagnes publicitaires, vidéos storytelling</td>
-        </tr>
-        <tr>
-          <td>Copywriter / Storyteller</td>
-          <td>Rédaction des histoires derrière les collections, descriptions produits, campagnes et publications</td>
-        </tr>
-        <tr>
-          <td>Community Manager</td>
-          <td>Gestion des réseaux sociaux, interaction avec la communauté et animation des plateformes digitales</td>
-        </tr>
-        <tr>
-          <td>Social Media Manager</td>
-          <td>Planification des campagnes digitales, stratégie de contenu et développement de l’audience</td>
-        </tr>
-        <tr>
-          <td>Relation publique</td>
-          <td>Prise en contact avec les parties prenantes externe, clubs, ultras, media…</td>
-        </tr>
-        <tr>
-          <td>Influence & Partnership Manager</td>
-          <td>Collaboration avec supporters, créateurs de contenu football, influenceurs et communautés sportives</td>
-        </tr>
+        <tr><td>Brand Manager</td><td>Définition de la stratégie de marque, positionnement, valeurs et cohérence de l’identité BENART</td></tr>
+        <tr><td>Content Creator / Créateur de contenu</td><td>Production de photos, vidéos, reels, interviews, contenus lifestyle et contenus liés à la culture supporters</td></tr>
+        <tr><td>Photographe / Vidéaste</td><td>Création de contenus visuels professionnels : shootings produits, campagnes publicitaires, vidéos storytelling</td></tr>
+        <tr><td>Copywriter / Storyteller</td><td>Rédaction des histoires derrière les collections, descriptions produits, campagnes et publications</td></tr>
+        <tr><td>Community Manager</td><td>Gestion des réseaux sociaux, interaction avec la communauté et animation des plateformes digitales</td></tr>
+        <tr><td>Social Media Manager</td><td>Planification des campagnes digitales, stratégie de contenu et développement de l’audience</td></tr>
+        <tr><td>Relation publique</td><td>Prise en contact avec les parties prenantes externe, clubs, ultras, media…</td></tr>
+        <tr><td>Influence & Partnership Manager</td><td>Collaboration avec supporters, créateurs de contenu football, influenceurs et communautés sportives</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>C. Équipe digitale et e-commerce</h3>
+  <h3>C. Équipe digitale et e-commerce</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1418,29 +1191,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Développeur web Full-Stack</td>
-          <td>Création et maintenance du site e-commerce</td>
-        </tr>
-        <tr>
-          <td>Designer UI/UX</td>
-          <td>Conception d’une expérience utilisateur moderne inspirée des marques streetwear</td>
-        </tr>
-        <tr>
-          <td>Responsable e-commerce</td>
-          <td>Gestion du catalogue, commandes, stocks et expérience client</td>
-        </tr>
-        <tr>
-          <td>Spécialiste SEO / Marketing digital</td>
-          <td>Optimisation de la visibilité en ligne et acquisition de clients</td>
-        </tr>
+        <tr><td>Développeur web Full-Stack</td><td>Création et maintenance du site e-commerce</td></tr>
+        <tr><td>Designer UI/UX</td><td>Conception d’une expérience utilisateur moderne inspirée des marques streetwear</td></tr>
+        <tr><td>Responsable e-commerce</td><td>Gestion du catalogue, commandes, stocks et expérience client</td></tr>
+        <tr><td>Spécialiste SEO / Marketing digital</td><td>Optimisation de la visibilité en ligne et acquisition de clients</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>D. Organisation recommandée au lancement</h3>
+  <h3>D. Organisation recommandée au lancement</h3>
 
-    <p>Pour limiter les coûts, certains rôles peuvent être regroupés :</p>
+  <p>Pour limiter les coûts, certains rôles peuvent être regroupés :</p>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1449,31 +1212,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Directeur artistique</td>
-          <td>Design produit + identité visuelle + direction des campagnes</td>
-        </tr>
-        <tr>
-          <td>Content Creator polyvalent</td>
-          <td>Photo + vidéo + réseaux sociaux</td>
-        </tr>
-        <tr>
-          <td>Community Manager</td>
-          <td>Animation communauté + gestion quotidienne</td>
-        </tr>
-        <tr>
-          <td>Responsable production</td>
-          <td>Fournisseurs + qualité + logistique</td>
-        </tr>
-        <tr>
-          <td>Développeur freelance</td>
-          <td>Création et maintenance du site</td>
-        </tr>
+        <tr><td>Directeur artistique</td><td>Design produit + identité visuelle + direction des campagnes</td></tr>
+        <tr><td>Content Creator polyvalent</td><td>Photo + vidéo + réseaux sociaux</td></tr>
+        <tr><td>Community Manager</td><td>Animation communauté + gestion quotidienne</td></tr>
+        <tr><td>Responsable production</td><td>Fournisseurs + qualité + logistique</td></tr>
+        <tr><td>Développeur freelance</td><td>Création et maintenance du site</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>2. Prérequis technologiques</h3>
+  <h3>2. Prérequis technologiques</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1482,71 +1232,40 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Prérequis technologiques</td>
-          <td>Plateforme e-commerce (Shopify, WooCommerce ou PrestaShop), CRM, gestion des stocks, passerelles de paiement, Google Analytics, Google Search Console, Meta Business Suite, outils d'email marketing, certificat SSL, hébergement sécurisé, sauvegardes automatiques, pare-feu et protection des données</td>
-        </tr>
-        <tr>
-          <td>Outils IA</td>
-          <td>ChatGPT (création de contenu, service client, brainstorming), outils de génération d'images IA (Midjourney, Adobe Firefly), chatbot IA, outils d'analyse marketing et de personnalisation client</td>
-        </tr>
-        <tr>
-          <td>Logiciels de design</td>
-          <td>Adobe Illustrator, Adobe Photoshop, Figma, logiciels de conception de broderie (Wilcom EmbroideryStudio, Hatch Embroidery)</td>
-        </tr>
-        <tr>
-          <td>Matériel informatique</td>
-          <td>Ordinateurs portables ou postes de travail, écrans professionnels, tablettes graphiques (optionnel), disques de sauvegarde, connexion internet haut débit</td>
-        </tr>
-        <tr>
-          <td>Matériel de production</td>
-          <td>Machine à broder industrielle, machine à coudre industrielle, presse à chaud, machine de découpe textile, machine de pose d'œillets, machine de pose de boutons, équipements de finition et de contrôle qualité</td>
-        </tr>
-        <tr>
-          <td>Matières premières</td>
-          <td>Tissus (coton, polyester, mesh), fils de broderie, visières, fermetures snapback, patchs, étiquettes tissées, emballages et boîtes d'expédition</td>
-        </tr>
-        <tr>
-          <td>Matériel de création de contenu</td>
-          <td>Appareil photo professionnel, caméra ou smartphone haut de gamme, objectifs photo, trépied, stabilisateur (gimbal), microphones, éclairage LED, fonds studio</td>
-        </tr>
-        <tr>
-          <td>Production de contenu digital</td>
-          <td>Station de montage vidéo, logiciels de montage (Premiere Pro, DaVinci Resolve, CapCut)</td>
-        </tr>
-        <tr>
-          <td>Infrastructure logistique</td>
-          <td>Local de stockage, rayonnages, tables de préparation des commandes, imprimante d'étiquettes, matériel d'emballage</td>
-        </tr>
-        <tr>
-          <td>Infrastructure serveur</td>
-          <td>Hébergement cloud, serveur web, base de données, système de sauvegarde, stockage des médias, CDN pour optimiser les performances du site</td>
-        </tr>
+        <tr><td>Prérequis technologiques</td><td>Plateforme e-commerce (Shopify, WooCommerce ou PrestaShop), CRM, gestion des stocks, passerelles de paiement, Google Analytics, Google Search Console, Meta Business Suite, outils d'email marketing, certificat SSL, hébergement sécurisé, sauvegardes automatiques, pare-feu et protection des données</td></tr>
+        <tr><td>Outils IA</td><td>ChatGPT (création de contenu, service client, brainstorming), outils de génération d'images IA (Midjourney, Adobe Firefly), chatbot IA, outils d'analyse marketing et de personnalisation client</td></tr>
+        <tr><td>Logiciels de design</td><td>Adobe Illustrator, Adobe Photoshop, Figma, logiciels de conception de broderie (Wilcom EmbroideryStudio, Hatch Embroidery)</td></tr>
+        <tr><td>Matériel informatique</td><td>Ordinateurs portables ou postes de travail, écrans professionnels, tablettes graphiques (optionnel), disques de sauvegarde, connexion internet haut débit</td></tr>
+        <tr><td>Matériel de production</td><td>Machine à broder industrielle, machine à coudre industrielle, presse à chaud, machine de découpe textile, machine de pose d'œillets, machine de pose de boutons, équipements de finition et de contrôle qualité</td></tr>
+        <tr><td>Matières premières</td><td>Tissus (coton, polyester, mesh), fils de broderie, visières, fermetures snapback, patchs, étiquettes tissées, emballages et boîtes d'expédition</td></tr>
+        <tr><td>Matériel de création de contenu</td><td>Appareil photo professionnel, caméra ou smartphone haut de gamme, objectifs photo, trépied, stabilisateur (gimbal), microphones, éclairage LED, fonds studio</td></tr>
+        <tr><td>Production de contenu digital</td><td>Station de montage vidéo, logiciels de montage (Premiere Pro, DaVinci Resolve, CapCut)</td></tr>
+        <tr><td>Infrastructure logistique</td><td>Local de stockage, rayonnages, tables de préparation des commandes, imprimante d'étiquettes, matériel d'emballage</td></tr>
+        <tr><td>Infrastructure serveur</td><td>Hébergement cloud, serveur web, base de données, système de sauvegarde, stockage des médias, CDN pour optimiser les performances du site</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Pourquoi cette équipe et les outils sont indispensables pour BENART ?</h3>
+  <h3>Pourquoi cette équipe et les outils sont indispensables pour BENART ?</h3>
 
-    <p>Contrairement à une simple marque de vêtements, BENART repose sur :</p>
+  <p>Contrairement à une simple marque de vêtements, BENART repose sur :</p>
 
-    <ul>
-      <li>un storytelling autour du football marocain ;</li>
-      <li>une identité visuelle forte ;</li>
-      <li>la création d’une communauté de supporters ;</li>
-      <li>des campagnes émotionnelles autour des clubs, derbys et moments historiques.</li>
-    </ul>
+  <ul>
+    <li>un storytelling autour du football marocain ;</li>
+    <li>une identité visuelle forte ;</li>
+    <li>la création d’une communauté de supporters ;</li>
+    <li>des campagnes émotionnelles autour des clubs, derbys et moments historiques.</li>
+  </ul>
 
-    <p>
-      L’objectif est de créer une relation culturelle avec le client, similaire aux marques streetwear
-      qui vendent une appartenance et une histoire, pas uniquement un produit.
-    </p>
-  </section>
+  <p>L’objectif est de créer une relation culturelle avec le client, similaire aux marques streetwear qui vendent une appartenance et une histoire, pas uniquement un produit.</p>
+</section>
 
-  <section id="finance">
-    <h2>9. Étude financière du projet BENART (version lancement)</h2>
+<section id="finance">
+  <h2>9. Étude financière du projet BENART (version lancement)</h2>
 
-    <h3>1. Budgétisation du projet en jours-homme (JH)</h3>
+  <h3>1. Budgétisation du projet en jours-homme (JH)</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1558,80 +1277,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Chef de projet / Business manager</td>
-          <td>Pilotage du projet, coordination, stratégie</td>
-          <td>40 JH</td>
-          <td>400</td>
-          <td>16 000</td>
-        </tr>
-        <tr>
-          <td>Designer produit / Directeur artistique</td>
-          <td>Création identité visuelle, designs casquettes, collections</td>
-          <td>30 JH</td>
-          <td>450</td>
-          <td>13 500</td>
-        </tr>
-        <tr>
-          <td>Designer graphique</td>
-          <td>Création logos, visuels, broderies, supports marketing</td>
-          <td>25 JH</td>
-          <td>350</td>
-          <td>8 750</td>
-        </tr>
-        <tr>
-          <td>Développeur web Full-Stack</td>
-          <td>Création plateforme e-commerce</td>
-          <td>45 JH</td>
-          <td>600</td>
-          <td>27 000</td>
-        </tr>
-        <tr>
-          <td>Designer UI/UX</td>
-          <td>Maquettes du site et expérience utilisateur</td>
-          <td>15 JH</td>
-          <td>450</td>
-          <td>6 750</td>
-        </tr>
-        <tr>
-          <td>Créateur de contenu (photo/vidéo)</td>
-          <td>Shooting produits, vidéos storytelling, réseaux sociaux</td>
-          <td>30 JH</td>
-          <td>400</td>
-          <td>12 000</td>
-        </tr>
-        <tr>
-          <td>Community manager / Social media manager</td>
-          <td>Gestion réseaux sociaux et stratégie digitale</td>
-          <td>25 JH</td>
-          <td>300</td>
-          <td>7 500</td>
-        </tr>
-        <tr>
-          <td>Copywriter / Storyteller</td>
-          <td>Rédaction histoires collections, campagnes, contenus</td>
-          <td>15 JH</td>
-          <td>300</td>
-          <td>4 500</td>
-        </tr>
-        <tr>
-          <td>Responsable production</td>
-          <td>Fournisseurs, fabrication, contrôle qualité</td>
-          <td>20 JH</td>
-          <td>400</td>
-          <td>8 000</td>
-        </tr>
-        <tr>
-          <td colspan="2"><strong>Total estimatif</strong></td>
-          <td><strong>245 JH</strong></td>
-          <td></td>
-          <td><strong>104 000 MAD</strong></td>
-        </tr>
+        <tr><td>Chef de projet / Business manager</td><td>Pilotage du projet, coordination, stratégie</td><td>40 JH</td><td>400</td><td>16 000</td></tr>
+        <tr><td>Designer produit / Directeur artistique</td><td>Création identité visuelle, designs casquettes, collections</td><td>30 JH</td><td>450</td><td>13 500</td></tr>
+        <tr><td>Designer graphique</td><td>Création logos, visuels, broderies, supports marketing</td><td>25 JH</td><td>350</td><td>8 750</td></tr>
+        <tr><td>Développeur web Full-Stack</td><td>Création plateforme e-commerce</td><td>45 JH</td><td>600</td><td>27 000</td></tr>
+        <tr><td>Designer UI/UX</td><td>Maquettes du site et expérience utilisateur</td><td>15 JH</td><td>450</td><td>6 750</td></tr>
+        <tr><td>Créateur de contenu (photo/vidéo)</td><td>Shooting produits, vidéos storytelling, réseaux sociaux</td><td>30 JH</td><td>400</td><td>12 000</td></tr>
+        <tr><td>Community manager / Social media manager</td><td>Gestion réseaux sociaux et stratégie digitale</td><td>25 JH</td><td>300</td><td>7 500</td></tr>
+        <tr><td>Copywriter / Storyteller</td><td>Rédaction histoires collections, campagnes, contenus</td><td>15 JH</td><td>300</td><td>4 500</td></tr>
+        <tr><td>Responsable production</td><td>Fournisseurs, fabrication, contrôle qualité</td><td>20 JH</td><td>400</td><td>8 000</td></tr>
+        <tr class="total-row"><td colspan="2">Total estimatif</td><td>245 JH</td><td></td><td>104 000 MAD</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>2. Budgétisation logistique</h3>
+  <h3>2. Budgétisation logistique</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1641,60 +1303,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Achat marchandises / matières premières</td>
-          <td>Première production de casquettes, tissus, accessoires</td>
-          <td>50 000</td>
-        </tr>
-        <tr>
-          <td>Prototypes et échantillons</td>
-          <td>Création et validation des premiers modèles</td>
-          <td>10 000</td>
-        </tr>
-        <tr>
-          <td>Packaging</td>
-          <td>Boîtes, sacs, étiquettes, stickers</td>
-          <td>15 000</td>
-        </tr>
-        <tr>
-          <td>Stockage</td>
-          <td>Location espace stockage et organisation</td>
-          <td>12 000</td>
-        </tr>
-        <tr>
-          <td>Livraison</td>
-          <td>Transport, expédition et retours</td>
-          <td>10 000</td>
-        </tr>
-        <tr>
-          <td>Matériel préparation commandes</td>
-          <td>Étiquetage et consommables</td>
-          <td>5 000</td>
-        </tr>
-        <tr>
-          <td>Production de contenu</td>
-          <td>Shooting, décors et supports visuels</td>
-          <td>15 000</td>
-        </tr>
-        <tr>
-          <td>Marketing lancement</td>
-          <td>Publicité digitale, influence, campagnes</td>
-          <td>25 000</td>
-        </tr>
-        <tr>
-          <td>Outils numériques</td>
-          <td>Hébergement, IA, logiciels</td>
-          <td>10 000</td>
-        </tr>
-        <tr>
-          <td colspan="2"><strong>Total logistique estimatif</strong></td>
-          <td><strong>152 000 MAD</strong></td>
-        </tr>
+        <tr><td>Achat marchandises / matières premières</td><td>Première production de casquettes, tissus, accessoires</td><td>50 000</td></tr>
+        <tr><td>Prototypes et échantillons</td><td>Création et validation des premiers modèles</td><td>10 000</td></tr>
+        <tr><td>Packaging</td><td>Boîtes, sacs, étiquettes, stickers</td><td>15 000</td></tr>
+        <tr><td>Stockage</td><td>Location espace stockage et organisation</td><td>12 000</td></tr>
+        <tr><td>Livraison</td><td>Transport, expédition et retours</td><td>10 000</td></tr>
+        <tr><td>Matériel préparation commandes</td><td>Étiquetage et consommables</td><td>5 000</td></tr>
+        <tr><td>Production de contenu</td><td>Shooting, décors et supports visuels</td><td>15 000</td></tr>
+        <tr><td>Marketing lancement</td><td>Publicité digitale, influence, campagnes</td><td>25 000</td></tr>
+        <tr><td>Outils numériques</td><td>Hébergement, IA, logiciels</td><td>10 000</td></tr>
+        <tr class="total-row"><td colspan="2">Total logistique estimatif</td><td>152 000 MAD</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>RECAP du budget initial BENART</h3>
+  <h3>RECAP du budget initial BENART</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1703,32 +1328,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Ressources humaines (245 JH)</td>
-          <td>104 000 MAD</td>
-        </tr>
-        <tr>
-          <td>Logistique et lancement</td>
-          <td>152 000 MAD</td>
-        </tr>
-        <tr>
-          <td><strong>Budget total estimé</strong></td>
-          <td><strong>≈ 256 000 MAD</strong></td>
-        </tr>
+        <tr><td>Ressources humaines (245 JH)</td><td>104 000 MAD</td></tr>
+        <tr><td>Logistique et lancement</td><td>152 000 MAD</td></tr>
+        <tr class="total-row"><td>Budget total estimé</td><td>≈ 256 000 MAD</td></tr>
       </tbody>
     </table>
-  </section>
+  </div>
+</section>
 
-  <section id="communication">
-    <h2>10. Stratégie de communication BENART</h2>
+<section id="communication">
+  <h2>10. Stratégie de communication BENART</h2>
 
-    <p>
-      La stratégie de communication de BENART repose sur la construction d’une identité de
-      marque forte autour du football marocain, du streetwear et du storytelling. L’objectif
-      n’est pas seulement de vendre des casquettes, mais de créer une communauté engagée
-      autour de la culture footballistique.
-    </p>
+  <p>La stratégie de communication de BENART repose sur la construction d’une identité de marque forte autour du football marocain, du streetwear et du storytelling. L’objectif n’est pas seulement de vendre des casquettes, mais de créer une communauté engagée autour de la culture footballistique.</p>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1737,47 +1350,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Partenariats publicitaires</td>
-          <td>Collaboration avec des créateurs de contenu football, influenceurs marocains, pages spécialisées dans le football national, communautés de supporters et médias sportifs digitaux. Mise en place de partenariats avec des clubs de la BOTOLA PRO , associations sportives et événements footballistiques pour augmenter la visibilité de la marque.</td>
-        </tr>
-        <tr>
-          <td>Ambassadeurs de marque</td>
-          <td>Sélection de profils proches de l’univers BENART : supporters, anciens joueurs, créateurs de contenu football, artistes streetwear. Leur rôle est de représenter la marque et de renforcer sa crédibilité auprès de la communauté.</td>
-        </tr>
-        <tr>
-          <td>Création de contenus réseaux sociaux</td>
-          <td>Développement d’une stratégie de contenu basée sur le storytelling : histoire derrière chaque collection, inspiration des derbys, culture ultras, moments historiques du football marocain. Publication de photos produits premium, vidéos courtes (Reels/TikTok), making-of, interviews et contenus communautaires.</td>
-        </tr>
-        <tr>
-          <td>Plateformes principales</td>
-          <td>Instagram pour l’image de marque et les collections, TikTok pour la viralité et les contenus courts, YouTube pour les formats longs (documentaires, storytelling), Facebook pour toucher une audience plus large.</td>
-        </tr>
-        <tr>
-          <td>Campagnes publicitaires digitales</td>
-          <td>Utilisation de campagnes sponsorisées sur les réseaux sociaux afin de cibler les supporters de football, amateurs de streetwear et jeunes consommateurs marocains. Mise en avant des drops limités et des éditions exclusives pour créer un sentiment d’urgence.</td>
-        </tr>
-        <tr>
-          <td>SEO et GEO (Generative Engine Optimization)</td>
-          <td>Optimisation de la présence digitale de BENART afin d’être visible dans les moteurs de recherche classiques et les moteurs de recherche basés sur l’IA. Création de contenus optimisés : articles sur la culture football marocaine, histoires des clubs, pages dédiées aux collections, descriptions produits détaillées et contenus susceptibles d’être recommandés par les assistants IA.</td>
-        </tr>
-        <tr>
-          <td>Marketing communautaire</td>
-          <td>Création d’une communauté autour de BENART : concours, votes pour les prochains designs, participation des supporters à la création des collections, campagnes avec hashtags et contenus générés par les utilisateurs (UGC).</td>
-        </tr>
-        <tr>
-          <td>Email marketing et fidélisation</td>
-          <td>Mise en place d’une base clients avec newsletters, annonces des nouveaux drops, accès anticipé aux éditions limitées et offres personnalisées.</td>
-        </tr>
-        <tr>
-          <td>Événements physiques</td>
-          <td>Participation à des événements sportifs, pop-up stores temporaires, collaborations avec des espaces liés au football et organisation de lancements de collections pour créer une expérience de marque.</td>
-        </tr>
+        <tr><td>Partenariats publicitaires</td><td>Collaboration avec des créateurs de contenu football, influenceurs marocains, pages spécialisées dans le football national, communautés de supporters et médias sportifs digitaux. Mise en place de partenariats avec des clubs de la BOTOLA PRO , associations sportives et événements footballistiques pour augmenter la visibilité de la marque.</td></tr>
+        <tr><td>Ambassadeurs de marque</td><td>Sélection de profils proches de l’univers BENART : supporters, anciens joueurs, créateurs de contenu football, artistes streetwear. Leur rôle est de représenter la marque et de renforcer sa crédibilité auprès de la communauté.</td></tr>
+        <tr><td>Création de contenus réseaux sociaux</td><td>Développement d’une stratégie de contenu basée sur le storytelling : histoire derrière chaque collection, inspiration des derbys, culture ultras, moments historiques du football marocain. Publication de photos produits premium, vidéos courtes (Reels/TikTok), making-of, interviews et contenus communautaires.</td></tr>
+        <tr><td>Plateformes principales</td><td>Instagram pour l’image de marque et les collections, TikTok pour la viralité et les contenus courts, YouTube pour les formats longs (documentaires, storytelling), Facebook pour toucher une audience plus large.</td></tr>
+        <tr><td>Campagnes publicitaires digitales</td><td>Utilisation de campagnes sponsorisées sur les réseaux sociaux afin de cibler les supporters de football, amateurs de streetwear et jeunes consommateurs marocains. Mise en avant des drops limités et des éditions exclusives pour créer un sentiment d’urgence.</td></tr>
+        <tr><td>SEO et GEO (Generative Engine Optimization)</td><td>Optimisation de la présence digitale de BENART afin d’être visible dans les moteurs de recherche classiques et les moteurs de recherche basés sur l’IA. Création de contenus optimisés : articles sur la culture football marocaine, histoires des clubs, pages dédiées aux collections, descriptions produits détaillées et contenus susceptibles d’être recommandés par les assistants IA.</td></tr>
+        <tr><td>Marketing communautaire</td><td>Création d’une communauté autour de BENART : concours, votes pour les prochains designs, participation des supporters à la création des collections, campagnes avec hashtags et contenus générés par les utilisateurs (UGC).</td></tr>
+        <tr><td>Email marketing et fidélisation</td><td>Mise en place d’une base clients avec newsletters, annonces des nouveaux drops, accès anticipé aux éditions limitées et offres personnalisées.</td></tr>
+        <tr><td>Événements physiques</td><td>Participation à des événements sportifs, pop-up stores temporaires, collaborations avec des espaces liés au football et organisation de lancements de collections pour créer une expérience de marque.</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Objectif de la stratégie :</h3>
+  <h3>Objectif de la stratégie :</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1786,36 +1374,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Construire la notoriété</td>
-          <td>Influence, publicité digitale, partenariats</td>
-        </tr>
-        <tr>
-          <td>Créer une communauté</td>
-          <td>Réseaux sociaux, contenus participatifs, storytelling</td>
-        </tr>
-        <tr>
-          <td>Générer des ventes</td>
-          <td>E-commerce, drops limités, campagnes ciblées</td>
-        </tr>
-        <tr>
-          <td>Renforcer la visibilité future</td>
-          <td>SEO + GEO (IA), contenus éducatifs et narratifs</td>
-        </tr>
+        <tr><td>Construire la notoriété</td><td>Influence, publicité digitale, partenariats</td></tr>
+        <tr><td>Créer une communauté</td><td>Réseaux sociaux, contenus participatifs, storytelling</td></tr>
+        <tr><td>Générer des ventes</td><td>E-commerce, drops limités, campagnes ciblées</td></tr>
+        <tr><td>Renforcer la visibilité future</td><td>SEO + GEO (IA), contenus éducatifs et narratifs</td></tr>
       </tbody>
     </table>
-  </section>
+  </div>
+</section>
 
-  <section id="contraintes">
-    <h2>11. Limites / contraintes à la création et à l’implémentation du projet BENART</h2>
+<section id="contraintes">
+  <h2>11. Limites / contraintes à la création et à l’implémentation du projet BENART</h2>
 
-    <p>
-      La création de BENART présente plusieurs contraintes liées à la construction d’une nouvelle
-      marque, à la maîtrise des compétences nécessaires, à l’adaptation d’un concept
-      international au contexte marocain et aux ressources financières et industrielles nécessaires
-      à son développement.
-    </p>
+  <p>La création de BENART présente plusieurs contraintes liées à la construction d’une nouvelle marque, à la maîtrise des compétences nécessaires, à l’adaptation d’un concept international au contexte marocain et aux ressources financières et industrielles nécessaires à son développement.</p>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1824,59 +1397,25 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Manque de connaissance du domaine (littératie métier)</td>
-          <td>Le projet nécessite une maîtrise de plusieurs domaines : industrie textile, fabrication des casquettes, gestion d’une marque streetwear, culture footballistique et fonctionnement des communautés de supporters. Une phase d’apprentissage et d’acquisition d’expertise sera nécessaire pour comprendre l’ensemble de la chaîne de valeur.</td>
-        </tr>
-        <tr>
-          <td>Littératie numérique</td>
-          <td>Le développement d’une marque digitale nécessite des compétences en e-commerce, marketing digital, référencement SEO/GEO, analyse des données, gestion des réseaux sociaux et utilisation des outils d’intelligence artificielle. Le manque de compétences dans ces domaines peut nécessiter le recours à des experts ou des formations spécifiques.</td>
-        </tr>
-        <tr>
-          <td>Adaptation d’une culture étrangère au contexte marocain</td>
-          <td>BENART s’inspire d’un modèle développé principalement aux États-Unis autour de la culture des casquettes, du sport et du streetwear. Le défi consiste à adapter cette culture au contexte marocain en créant une identité propre basée sur l’histoire des clubs, les derbys, les stades et la culture des supporters, sans reproduire simplement un modèle étranger.</td>
-        </tr>
-        <tr>
-          <td>Construction du storytelling et de l’identité de marque</td>
-          <td>La réussite de BENART dépend de sa capacité à créer un univers narratif fort autour de chaque collection. Cela nécessite un travail important de recherche, de création de contenu, de documentation historique et de développement d’une communauté engagée.</td>
-        </tr>
-        <tr>
-          <td>Collaboration avec les clubs de la Botola Pro</td>
-          <td>La création de collections inspirées des clubs professionnels marocains peut nécessiter des partenariats officiels. L’obtention des autorisations liées aux logos, aux symboles et aux droits commerciaux peut représenter une difficulté en raison des négociations nécessaires avec les clubs.</td>
-        </tr>
-        <tr>
-          <td>Collaboration avec les groupes ultras</td>
-          <td>Les groupes ultras représentent une source importante d’inspiration pour BENART, mais leur intégration nécessite une approche authentique et respectueuse. La marque devra construire une relation de confiance avec ces communautés afin d’éviter une perception de récupération commerciale de leur culture.</td>
-        </tr>
-        <tr>
-          <td>Financement initial du projet</td>
-          <td>Le lancement de BENART nécessite un investissement important pour financer la production initiale, le développement de la plateforme e-commerce, la création de contenu, le marketing digital, le stockage et la logistique. La recherche de financement peut constituer une limite au développement rapide du projet.</td>
-        </tr>
-        <tr>
-          <td>Coût de production locale élevé</td>
-          <td>La fabrication locale des casquettes peut être plus coûteuse que l’importation depuis des pays disposant d’une industrie textile plus développée comme la Chine ou la Turquie. Les coûts liés aux matières premières, aux capacités de production et aux économies d’échelle peuvent réduire les marges et limiter la compétitivité des prix.</td>
-        </tr>
-        <tr>
-          <td>Compromis entre production locale et compétitivité</td>
-          <td>BENART devra trouver un équilibre entre la valorisation du « Made in Morocco » et la nécessité de proposer un prix adapté au marché. Une stratégie hybride pourrait être envisagée : externalisation de certaines étapes de fabrication tout en conservant localement la conception, la personnalisation, le contrôle qualité et le branding.</td>
-        </tr>
-        <tr>
-          <td>Production et approvisionnement</td>
-          <td>Trouver des fournisseurs fiables capables de garantir une qualité constante, des délais raisonnables et des volumes adaptés au lancement peut représenter une difficulté, notamment pour une jeune marque avec un pouvoir de négociation limité.</td>
-        </tr>
-        <tr>
-          <td>Création d’une communauté autour de la marque</td>
-          <td>BENART ne vend pas uniquement des casquettes mais une identité culturelle. Construire une communauté fidèle autour du football marocain, du storytelling et du sentiment d’appartenance nécessite du temps, une communication régulière et une forte présence digitale.</td>
-        </tr>
-        <tr>
-          <td>Concurrence internationale</td>
-          <td>BENART devra se différencier face à des marques internationales déjà établies dans l’univers des casquettes et du streetwear, disposant d’une forte notoriété, d’une capacité de production importante et d’une communauté mondiale.</td>
-        </tr>
+        <tr><td>Manque de connaissance du domaine (littératie métier)</td><td>Le projet nécessite une maîtrise de plusieurs domaines : industrie textile, fabrication des casquettes, gestion d’une marque streetwear, culture footballistique et fonctionnement des communautés de supporters. Une phase d’apprentissage et d’acquisition d’expertise sera nécessaire pour comprendre l’ensemble de la chaîne de valeur.</td></tr>
+        <tr><td>Littératie numérique</td><td>Le développement d’une marque digitale nécessite des compétences en e-commerce, marketing digital, référencement SEO/GEO, analyse des données, gestion des réseaux sociaux et utilisation des outils d’intelligence artificielle. Le manque de compétences dans ces domaines peut nécessiter le recours à des experts ou des formations spécifiques.</td></tr>
+        <tr><td>Adaptation d’une culture étrangère au contexte marocain</td><td>BENART s’inspire d’un modèle développé principalement aux États-Unis autour de la culture des casquettes, du sport et du streetwear. Le défi consiste à adapter cette culture au contexte marocain en créant une identité propre basée sur l’histoire des clubs, les derbys, les stades et la culture des supporters, sans reproduire simplement un modèle étranger.</td></tr>
+        <tr><td>Construction du storytelling et de l’identité de marque</td><td>La réussite de BENART dépend de sa capacité à créer un univers narratif fort autour de chaque collection. Cela nécessite un travail important de recherche, de création de contenu, de documentation historique et de développement d’une communauté engagée.</td></tr>
+        <tr><td>Collaboration avec les clubs de la Botola Pro</td><td>La création de collections inspirées des clubs professionnels marocains peut nécessiter des partenariats officiels. L’obtention des autorisations liées aux logos, aux symboles et aux droits commerciaux peut représenter une difficulté en raison des négociations nécessaires avec les clubs.</td></tr>
+        <tr><td>Collaboration avec les groupes ultras</td><td>Les groupes ultras représentent une source importante d’inspiration pour BENART, mais leur intégration nécessite une approche authentique et respectueuse. La marque devra construire une relation de confiance avec ces communautés afin d’éviter une perception de récupération commerciale de leur culture.</td></tr>
+        <tr><td>Financement initial du projet</td><td>Le lancement de BENART nécessite un investissement important pour financer la production initiale, le développement de la plateforme e-commerce, la création de contenu, le marketing digital, le stockage et la logistique. La recherche de financement peut constituer une limite au développement rapide du projet.</td></tr>
+        <tr><td>Coût de production locale élevé</td><td>La fabrication locale des casquettes peut être plus coûteuse que l’importation depuis des pays disposant d’une industrie textile plus développée comme la Chine ou la Turquie. Les coûts liés aux matières premières, aux capacités de production et aux économies d’échelle peuvent réduire les marges et limiter la compétitivité des prix.</td></tr>
+        <tr><td>Compromis entre production locale et compétitivité</td><td>BENART devra trouver un équilibre entre la valorisation du « Made in Morocco » et la nécessité de proposer un prix adapté au marché. Une stratégie hybride pourrait être envisagée : externalisation de certaines étapes de fabrication tout en conservant localement la conception, la personnalisation, le contrôle qualité et le branding.</td></tr>
+        <tr><td>Production et approvisionnement</td><td>Trouver des fournisseurs fiables capables de garantir une qualité constante, des délais raisonnables et des volumes adaptés au lancement peut représenter une difficulté, notamment pour une jeune marque avec un pouvoir de négociation limité.</td></tr>
+        <tr><td>Création d’une communauté autour de la marque</td><td>BENART ne vend pas uniquement des casquettes mais une identité culturelle. Construire une communauté fidèle autour du football marocain, du storytelling et du sentiment d’appartenance nécessite du temps, une communication régulière et une forte présence digitale.</td></tr>
+        <tr><td>Concurrence internationale</td><td>BENART devra se différencier face à des marques internationales déjà établies dans l’univers des casquettes et du streetwear, disposant d’une forte notoriété, d’une capacité de production importante et d’une communauté mondiale.</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>RECAP des limites</h3>
+  <h3>RECAP des limites</h3>
 
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -1885,43 +1424,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Compétences</td>
-          <td>Acquisition des connaissances nécessaires dans le textile, le digital, le branding et le storytelling.</td>
-        </tr>
-        <tr>
-          <td>Culture & identité</td>
-          <td>Adapter une culture internationale de la casquette et du streetwear à la culture du supporter marocain.</td>
-        </tr>
-        <tr>
-          <td>Partenariats</td>
-          <td>Difficulté d’accès aux collaborations avec les clubs de la Botola Pro et les communautés ultras.</td>
-        </tr>
-        <tr>
-          <td>Finance</td>
-          <td>Besoin d’un capital initial pour financer la production, le marketing et le développement de la marque.</td>
-        </tr>
-        <tr>
-          <td>Production</td>
-          <td>Coût de fabrication locale supérieur aux produits importés de Chine ou de Turquie, nécessitant une optimisation de la chaîne de production.</td>
-        </tr>
-        <tr>
-          <td>Communication</td>
-          <td>Création d’une communauté et d’un storytelling capable de différencier BENART sur le marché.</td>
-        </tr>
+        <tr><td>Compétences</td><td>Acquisition des connaissances nécessaires dans le textile, le digital, le branding et le storytelling.</td></tr>
+        <tr><td>Culture & identité</td><td>Adapter une culture internationale de la casquette et du streetwear à la culture du supporter marocain.</td></tr>
+        <tr><td>Partenariats</td><td>Difficulté d’accès aux collaborations avec les clubs de la Botola Pro et les communautés ultras.</td></tr>
+        <tr><td>Finance</td><td>Besoin d’un capital initial pour financer la production, le marketing et le développement de la marque.</td></tr>
+        <tr><td>Production</td><td>Coût de fabrication locale supérieur aux produits importés de Chine ou de Turquie, nécessitant une optimisation de la chaîne de production.</td></tr>
+        <tr><td>Communication</td><td>Création d’une communauté et d’un storytelling capable de différencier BENART sur le marché.</td></tr>
       </tbody>
     </table>
+  </div>
 
-    <h3>Conclusion :</h3>
+  <h3>Conclusion :</h3>
 
-    <p>
-      La principale difficulté de BENART ne réside pas uniquement dans la fabrication des
-      casquettes, mais dans la capacité à construire une marque culturelle marocaine forte et
-      crédible. Le véritable défi sera de transformer une inspiration internationale en un concept
-      adapté au contexte local, capable de réunir supporters, amateurs de football et passionnés
-      de streetwear autour d’une identité commune.
-    </p>
-  </section>
+  <p>La principale difficulté de BENART ne réside pas uniquement dans la fabrication des casquettes, mais dans la capacité à construire une marque culturelle marocaine forte et crédible. Le véritable défi sera de transformer une inspiration internationale en un concept adapté au contexte local, capable de réunir supporters, amateurs de football et passionnés de streetwear autour d’une identité commune.</p>
+</section>
 
 </main>
 
