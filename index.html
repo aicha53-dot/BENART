@@ -126,6 +126,7 @@
       border-radius:8px;
       background:#000;
       box-shadow:none;
+      filter:none;
     }
 
     .brand span{
@@ -249,11 +250,18 @@
       align-items:center;
       justify-content:center;
       padding:34px;
+      box-shadow:none;
+      background:#000;
+    }
+
+    .hero-image.logo::after{
+      display:none;
     }
 
     .hero-image.logo img{
-       object-fit:contain;
-       filter:none;
+      object-fit:contain;
+      filter:none;
+      box-shadow:none;
     }
 
     .hero-title{
