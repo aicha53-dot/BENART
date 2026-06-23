@@ -7,20 +7,21 @@
 
   <style>
     :root{
-      --black:#030303;
-      --dark:#070b08;
+      --black:#020302;
+      --black2:#050806;
+      --dark:#0a0f0c;
+      --card:rgba(255,255,255,.07);
+      --card2:rgba(255,255,255,.10);
+      --border:rgba(255,255,255,.14);
       --green:#00e676;
-      --green2:#0b8f4a;
+      --green2:#00b85c;
       --red:#e01928;
-      --blue:#3973d7;
-      --teal:#43858c;
+      --blue:#4d8dff;
+      --teal:#69d6c2;
       --white:#ffffff;
-      --text:#101010;
-      --muted:#5f6670;
-      --paper:#ffffff;
-      --bg:#eef3fa;
-      --border:#d9e0ea;
-      --shadow:0 25px 70px rgba(0,0,0,.14);
+      --soft:#dce7df;
+      --muted:#aebbb3;
+      --shadow:0 30px 90px rgba(0,0,0,.55);
       --radius:28px;
     }
 
@@ -37,11 +38,33 @@
     body{
       font-family:Arial, Helvetica, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(0,230,118,.12), transparent 30%),
-        radial-gradient(circle at top right, rgba(224,25,40,.10), transparent 32%),
-        var(--bg);
-      color:var(--text);
+        radial-gradient(circle at 12% 8%, rgba(0,230,118,.14), transparent 28%),
+        radial-gradient(circle at 88% 15%, rgba(224,25,40,.15), transparent 28%),
+        linear-gradient(180deg,#020302 0%,#08100b 38%,#020302 100%);
+      color:var(--white);
       line-height:1.65;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:44px 44px;
+      pointer-events:none;
+      z-index:-2;
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:radial-gradient(circle at center, transparent 35%, rgba(0,0,0,.72));
+      pointer-events:none;
+      z-index:-1;
     }
 
     img{
@@ -50,86 +73,111 @@
     }
 
     a{
-      text-decoration:none;
       color:inherit;
+      text-decoration:none;
+    }
+
+    .progress{
+      position:fixed;
+      top:0;
+      left:0;
+      height:4px;
+      width:0%;
+      background:linear-gradient(90deg,var(--green),#fff,var(--red));
+      z-index:2000;
+      box-shadow:0 0 18px rgba(0,230,118,.8);
     }
 
     header{
-      position:sticky;
+      position:fixed;
       top:0;
-      z-index:999;
-      background:rgba(255,255,255,.92);
+      left:0;
+      width:100%;
+      z-index:1500;
+      background:rgba(0,0,0,.72);
       backdrop-filter:blur(18px);
-      border-bottom:1px solid rgba(0,0,0,.08);
-      box-shadow:0 10px 30px rgba(0,0,0,.07);
+      border-bottom:1px solid var(--border);
     }
 
     .nav{
-      width:min(1280px,94%);
+      width:min(1320px,94%);
       margin:auto;
+      min-height:82px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:24px;
-      padding:12px 0;
+      gap:22px;
     }
 
     .brand{
       display:flex;
       align-items:center;
       gap:14px;
-      font-weight:900;
+      font-weight:1000;
       letter-spacing:2px;
-      min-width:210px;
+      color:white;
+      min-width:230px;
     }
 
     .brand img{
-      width:78px;
-      height:50px;
+      width:86px;
+      height:54px;
       object-fit:cover;
+      border-radius:8px;
       background:#000;
-      border-radius:3px;
+      box-shadow:0 0 22px rgba(255,255,255,.22);
     }
 
     .brand span{
       display:block;
       font-size:20px;
-      line-height:1.2;
-      color:#111;
+      line-height:1.15;
+    }
+
+    .brand small{
+      display:block;
+      color:var(--green);
+      letter-spacing:5px;
+      font-size:10px;
+      margin-top:2px;
     }
 
     nav{
       display:flex;
-      flex-wrap:wrap;
+      align-items:center;
       justify-content:flex-end;
-      gap:16px 22px;
-      font-size:14px;
-      font-weight:800;
-      color:#183b75;
+      flex-wrap:wrap;
+      gap:14px 21px;
+      font-size:13px;
+      font-weight:900;
     }
 
     nav a,
     nav button{
-      border:0;
+      color:#edf7ef;
       background:transparent;
-      cursor:pointer;
+      border:0;
       font:inherit;
-      color:#183b75;
-      transition:.2s;
+      cursor:pointer;
+      transition:.25s;
+      opacity:.88;
     }
 
     nav a:hover,
     nav button:hover{
-      color:var(--green2);
-      transform:translateY(-1px);
+      color:var(--green);
+      opacity:1;
+      transform:translateY(-2px);
     }
 
     .hero{
-      background:#000;
-      color:white;
-      padding:70px 0 72px;
+      min-height:100vh;
+      padding:135px 0 75px;
+      display:flex;
+      align-items:center;
       position:relative;
       overflow:hidden;
+      background:#000;
     }
 
     .hero::before{
@@ -137,14 +185,22 @@
       position:absolute;
       inset:0;
       background:
-        radial-gradient(circle at 15% 25%, rgba(224,25,40,.23), transparent 32%),
-        radial-gradient(circle at 85% 25%, rgba(0,230,118,.20), transparent 35%),
-        linear-gradient(180deg, rgba(0,0,0,.2), #000);
-      pointer-events:none;
+        radial-gradient(circle at 10% 30%, rgba(224,25,40,.28), transparent 30%),
+        radial-gradient(circle at 90% 25%, rgba(0,230,118,.25), transparent 32%),
+        linear-gradient(180deg,rgba(0,0,0,.15),#000);
+      z-index:0;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg,transparent 55%,#020302 100%);
+      z-index:0;
     }
 
     .hero-inner{
-      width:min(1280px,92%);
+      width:min(1320px,92%);
       margin:auto;
       position:relative;
       z-index:1;
@@ -152,18 +208,34 @@
 
     .image-grid{
       display:grid;
-      grid-template-columns:1fr 1fr 1fr;
+      grid-template-columns:1fr .95fr 1fr;
       gap:24px;
       align-items:stretch;
     }
 
     .hero-image{
-      height:280px;
-      border-radius:18px;
+      min-height:285px;
+      height:31vh;
+      border-radius:24px;
       overflow:hidden;
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow:0 24px 60px rgba(0,0,0,.55);
-      background:#030303;
+      background:#050505;
+      border:1px solid rgba(255,255,255,.15);
+      box-shadow:var(--shadow);
+      transform:translateY(0);
+      transition:.45s;
+      position:relative;
+    }
+
+    .hero-image::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg,transparent,rgba(0,0,0,.25));
+    }
+
+    .hero-image:hover{
+      transform:translateY(-9px) scale(1.015);
+      border-color:rgba(0,230,118,.45);
     }
 
     .hero-image img{
@@ -176,161 +248,286 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:25px;
+      padding:34px;
     }
 
     .hero-image.logo img{
       object-fit:contain;
-      filter:drop-shadow(0 0 25px rgba(255,255,255,.75));
+      filter:drop-shadow(0 0 35px rgba(255,255,255,.85));
     }
 
     .hero-title{
       text-align:center;
-      margin-top:44px;
+      margin-top:48px;
+    }
+
+    .hero-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 18px;
+      border-radius:999px;
+      background:rgba(0,230,118,.12);
+      border:1px solid rgba(0,230,118,.45);
+      color:#dfffea;
+      font-weight:900;
+      margin-bottom:22px;
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      background:var(--green);
+      border-radius:50%;
+      box-shadow:0 0 18px var(--green);
     }
 
     .hero-title h1{
-      font-size:clamp(42px,5vw,72px);
-      letter-spacing:4px;
-      line-height:1;
-      margin-bottom:18px;
+      font-size:clamp(52px,8vw,120px);
+      line-height:.9;
+      letter-spacing:-2px;
       text-transform:uppercase;
+      margin-bottom:22px;
+    }
+
+    .hero-title h1 span{
+      background:linear-gradient(90deg,#fff,var(--green),var(--red));
+      -webkit-background-clip:text;
+      color:transparent;
     }
 
     .hero-title p{
-      font-size:21px;
-      color:#d7dce4;
+      color:#dce6df;
+      font-size:22px;
+      margin-bottom:30px;
     }
 
-    .document{
-      width:min(1080px,92%);
-      margin:44px auto;
-      background:var(--paper);
-      border-radius:26px;
-      padding:64px 76px;
+    .hero-actions{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:14px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:15px 24px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--green),#a6ffc7);
+      color:#021107;
+      font-weight:1000;
+      border:0;
+      cursor:pointer;
+      box-shadow:0 18px 45px rgba(0,230,118,.24);
+      transition:.25s;
+    }
+
+    .btn:hover{
+      transform:translateY(-4px);
+      box-shadow:0 26px 60px rgba(0,230,118,.32);
+    }
+
+    .btn.secondary{
+      color:white;
+      background:rgba(255,255,255,.09);
+      border:1px solid var(--border);
+      box-shadow:none;
+    }
+
+    main{
+      width:min(1180px,92%);
+      margin:auto;
+      padding:35px 0 80px;
+    }
+
+    .section-card{
+      background:
+        linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.045)),
+        rgba(0,0,0,.45);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:48px;
+      margin:35px 0;
       box-shadow:var(--shadow);
-      border:1px solid rgba(255,255,255,.8);
-    }
-
-    section{
+      backdrop-filter:blur(16px);
       scroll-margin-top:115px;
-      margin-bottom:58px;
-      padding-bottom:12px;
-      border-bottom:1px solid #edf0f5;
+      position:relative;
+      overflow:hidden;
     }
 
-    section:last-child{
-      border-bottom:0;
+    .section-card::before{
+      content:"";
+      position:absolute;
+      top:-120px;
+      right:-120px;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(0,230,118,.13),transparent 70%);
+      pointer-events:none;
+    }
+
+    .section-card.red-glow::before{
+      background:radial-gradient(circle,rgba(224,25,40,.13),transparent 70%);
     }
 
     h2{
       color:var(--blue);
-      font-size:36px;
-      line-height:1.18;
-      margin:12px 0 22px;
-      letter-spacing:-.5px;
+      font-size:clamp(34px,5vw,58px);
+      line-height:1.08;
+      margin:4px 0 24px;
+      letter-spacing:-1px;
+      position:relative;
+      z-index:1;
     }
 
     h3{
       color:var(--teal);
-      font-size:27px;
-      margin:30px 0 14px;
-      line-height:1.25;
+      font-size:clamp(24px,3vw,34px);
+      margin:32px 0 16px;
+      line-height:1.2;
+      position:relative;
+      z-index:1;
     }
 
     h4{
-      font-size:18px;
-      margin:22px 0 8px;
-      color:#000;
+      font-size:19px;
+      margin:24px 0 9px;
+      color:white;
+      position:relative;
+      z-index:1;
     }
 
     p{
+      color:#eef5ef;
+      font-size:16.5px;
       margin:11px 0;
-      font-size:16px;
+      position:relative;
+      z-index:1;
     }
 
     ul{
-      margin:12px 0 20px 32px;
+      margin:14px 0 22px 32px;
+      color:#eef5ef;
+      position:relative;
+      z-index:1;
     }
 
     li{
-      margin:6px 0;
-      font-size:16px;
+      margin:7px 0;
+      font-size:16.5px;
     }
 
     strong{
-      font-weight:900;
+      color:white;
+      font-weight:1000;
     }
 
     .table-wrap{
       width:100%;
       overflow-x:auto;
-      margin:20px 0 30px;
-      border-radius:14px;
-      border:1px solid #bfc7d4;
-      background:white;
-      box-shadow:0 12px 28px rgba(0,0,0,.06);
+      margin:22px 0 34px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.05);
+      box-shadow:0 20px 55px rgba(0,0,0,.30);
+      position:relative;
+      z-index:1;
     }
 
     table{
       width:100%;
-      border-collapse:collapse;
-      font-size:14px;
       min-width:760px;
+      border-collapse:collapse;
+      color:white;
+      font-size:14px;
     }
 
     th,td{
-      border:1px solid #222;
-      padding:10px 11px;
+      border:1px solid rgba(255,255,255,.18);
+      padding:12px 13px;
       text-align:left;
       vertical-align:top;
     }
 
     th{
-      background:#dbeafc;
-      color:#111;
-      font-weight:900;
+      background:linear-gradient(135deg,rgba(0,230,118,.25),rgba(77,141,255,.22));
+      color:#ffffff;
+      font-weight:1000;
+    }
+
+    td{
+      color:#e8f0ea;
+      background:rgba(255,255,255,.025);
+    }
+
+    tr:hover td{
+      background:rgba(0,230,118,.075);
     }
 
     .blue-table th{
-      background:#a9cdef;
+      background:linear-gradient(135deg,rgba(77,141,255,.48),rgba(0,230,118,.20));
     }
 
     .blue-table td:first-child,
     .blue-table th:first-child{
-      background:#a9cdef;
-      font-weight:900;
+      background:rgba(77,141,255,.23);
+      font-weight:1000;
+      color:white;
     }
 
     .total-row td{
-      font-weight:900;
-      background:#eef6ff;
+      background:rgba(0,230,118,.14);
+      color:white;
+      font-weight:1000;
     }
 
     .conclusion-box{
-      background:linear-gradient(135deg,rgba(57,115,215,.09),rgba(0,230,118,.08));
-      border-left:6px solid var(--blue);
-      border-radius:16px;
-      padding:22px 26px;
-      margin:24px 0;
+      background:linear-gradient(135deg,rgba(0,230,118,.15),rgba(77,141,255,.12));
+      border:1px solid rgba(0,230,118,.30);
+      border-left:6px solid var(--green);
+      border-radius:24px;
+      padding:25px 28px;
+      margin:25px 0;
+      position:relative;
+      z-index:1;
     }
 
-    .print-note{
+    .floating-export{
       position:fixed;
-      right:18px;
-      bottom:18px;
-      z-index:900;
-      background:#111;
+      right:20px;
+      bottom:20px;
+      z-index:1600;
+      border:1px solid rgba(255,255,255,.18);
+      background:linear-gradient(135deg,#111,#000);
       color:white;
-      border:1px solid rgba(255,255,255,.2);
-      padding:13px 18px;
+      padding:14px 18px;
       border-radius:999px;
-      font-weight:900;
+      font-weight:1000;
       cursor:pointer;
-      box-shadow:0 16px 35px rgba(0,0,0,.3);
+      box-shadow:0 20px 45px rgba(0,0,0,.45);
+      transition:.25s;
     }
 
-    @media(max-width:1000px){
+    .floating-export:hover{
+      transform:translateY(-4px);
+      color:var(--green);
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(35px);
+      transition:.7s ease;
+    }
+
+    .reveal.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    @media(max-width:1050px){
       nav{
         display:none;
       }
@@ -339,46 +536,85 @@
         grid-template-columns:1fr;
       }
 
-      .document{
-        padding:34px 22px;
+      .hero-image{
+        height:280px;
       }
 
-      h2{
-        font-size:30px;
+      .section-card{
+        padding:30px 22px;
+      }
+    }
+
+    @media(max-width:650px){
+      .brand span{
+        font-size:16px;
       }
 
-      h3{
-        font-size:24px;
+      .brand img{
+        width:68px;
+        height:44px;
+      }
+
+      .hero{
+        padding-top:115px;
+      }
+
+      .hero-title h1{
+        font-size:46px;
+      }
+
+      .hero-title p{
+        font-size:18px;
       }
     }
 
     @media print{
       header,
       .hero,
-      .print-note{
+      .floating-export,
+      .progress{
         display:none !important;
       }
 
       body{
         background:white;
+        color:#111;
       }
 
-      .document{
+      main{
         width:100%;
-        max-width:100%;
-        margin:0;
-        padding:25px;
-        box-shadow:none;
-        border:0;
-        border-radius:0;
+        padding:0;
       }
 
-      section{
+      .section-card{
+        box-shadow:none;
+        border:1px solid #ddd;
+        background:white;
+        color:#111;
+        margin:0;
+        border-radius:0;
         page-break-inside:auto;
       }
 
-      .table-wrap{
-        box-shadow:none;
+      h2{
+        color:#3973d7;
+      }
+
+      h3{
+        color:#43858c;
+      }
+
+      h4,p,li,td,strong{
+        color:#111;
+      }
+
+      th{
+        color:#111;
+        background:#dbeafc;
+      }
+
+      td{
+        background:white;
       }
     }
   </style>
@@ -386,11 +622,13 @@
 
 <body>
 
+<div class="progress" id="progress"></div>
+
 <header>
   <div class="nav">
     <a href="#top" class="brand">
       <img src="benart-logo.png" alt="Logo BENART">
-      <span>BENART<br>Morocco</span>
+      <span>BENART<br><small>MOROCCO</small></span>
     </a>
 
     <nav>
@@ -410,9 +648,9 @@
   </div>
 </header>
 
-<button class="print-note" onclick="window.print()">Exporter PDF</button>
+<button class="floating-export" onclick="window.print()">Exporter PDF</button>
 
-<div class="hero" id="top">
+<section class="hero" id="top">
   <div class="hero-inner">
     <div class="image-grid">
       <div class="hero-image">
@@ -429,15 +667,21 @@
     </div>
 
     <div class="hero-title">
-      <h1>BENART Morocco</h1>
+      <div class="hero-badge"><span class="dot"></span> Rapport portfolio interactif</div>
+      <h1>BEN<span>ART</span><br>MOROCCO</h1>
       <p>Site de vente de casquettes et chapeaux</p>
+
+      <div class="hero-actions">
+        <a class="btn" href="#concept">Découvrir le rapport</a>
+        <a class="btn secondary" href="#benchmark">Voir les tableaux</a>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<main class="document">
+<main>
 
-<section id="concept">
+<section class="section-card reveal" id="concept">
   <h2>1. Concept</h2>
 
   <h4>Nom du projet</h4>
@@ -449,7 +693,7 @@
   <p>L’entreprise adopte un modèle de production en séries limitées afin de renforcer l’exclusivité de ses collections et de créer une valeur émotionnelle forte auprès des consommateurs. Chaque modèle de casquette est associé à une histoire, un événement ou un symbole représentatif de la culture footballistique marocaine.</p>
 </section>
 
-<section id="originalite">
+<section class="section-card reveal red-glow" id="originalite">
   <h2>2. Originalité de l'idée</h2>
 
   <p>Contrairement aux boutiques sportives traditionnelles qui commercialisent principalement des produits standardisés aux couleurs des clubs, BENART Morocco propose une approche fondée sur le storytelling, la personnalisation et l’exclusivité.</p>
@@ -465,11 +709,10 @@
   </ul>
 </section>
 
-<section id="novateur">
+<section class="section-card reveal" id="novateur">
   <h2>3. Aspect novateur</h2>
 
   <h3>Innovation produit</h3>
-
   <p>BENART Morocco introduit un concept de casquettes premium inspirées de l’actualité sportive nationale et de l’univers des supporters marocains.</p>
 
   <p>Les principales innovations produits sont :</p>
@@ -482,7 +725,6 @@
   </ul>
 
   <h3>Innovation digitale</h3>
-
   <p>L’innovation numérique constitue un élément central du projet.</p>
 
   <p>Les principales fonctionnalités innovantes envisagées sont :</p>
@@ -495,11 +737,10 @@
   </ul>
 </section>
 
-<section id="benchmark">
+<section class="section-card reveal red-glow" id="benchmark">
   <h2>4. Benchmark</h2>
 
   <h3>4.1 Concurrents directs nationaux</h3>
-
   <div class="table-wrap">
     <table>
       <thead>
@@ -528,7 +769,6 @@
   </div>
 
   <h3>4.2 Concurrents indirects nationaux</h3>
-
   <div class="table-wrap">
     <table>
       <thead>
@@ -563,7 +803,6 @@
   </div>
 
   <h3>4.3 Concurrents directs internationaux</h3>
-
   <div class="table-wrap">
     <table>
       <thead>
@@ -592,7 +831,6 @@
   </div>
 
   <h3>4.4 Concurrents indirects internationaux</h3>
-
   <div class="table-wrap">
     <table>
       <thead>
@@ -633,333 +871,109 @@
   </div>
 </section>
 
-<section id="swot">
+<section class="section-card reveal" id="swot">
   <h2>5. Analyse SWOT des concurrents</h2>
 
   <h3>HODHOD Concept</h3>
-
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Forces</th>
-          <th>Faiblesses</th>
-          <th>Opportunités</th>
-          <th>Menaces</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Forces</th><th>Faiblesses</th><th>Opportunités</th><th>Menaces</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Spécialiste marocain des casquettes</td>
-          <td>Pas de lien avec le football</td>
-          <td>Croissance du marché lifestyle au Maroc</td>
-          <td>Arrivée de marques internationales</td>
-        </tr>
-        <tr>
-          <td>Identité de marque locale forte</td>
-          <td>Absence de storytelling sportif</td>
-          <td>Développement du e-commerce marocain</td>
-          <td>Concurrence accrue sur la mode urbaine</td>
-        </tr>
-        <tr>
-          <td>Catalogue varié (casquettes, chapeaux)</td>
-          <td>Peu de différenciation émotionnelle</td>
-          <td>Export potentiel</td>
-          <td>Évolution rapide des tendances</td>
-        </tr>
-        <tr>
-          <td>Prix accessibles</td>
-          <td>Pas de collections événementielles</td>
-          <td>Expansion vers le premium</td>
-          <td>Produits importés moins chers</td>
-        </tr>
+        <tr><td>Spécialiste marocain des casquettes</td><td>Pas de lien avec le football</td><td>Croissance du marché lifestyle au Maroc</td><td>Arrivée de marques internationales</td></tr>
+        <tr><td>Identité de marque locale forte</td><td>Absence de storytelling sportif</td><td>Développement du e-commerce marocain</td><td>Concurrence accrue sur la mode urbaine</td></tr>
+        <tr><td>Catalogue varié (casquettes, chapeaux)</td><td>Peu de différenciation émotionnelle</td><td>Export potentiel</td><td>Évolution rapide des tendances</td></tr>
+        <tr><td>Prix accessibles</td><td>Pas de collections événementielles</td><td>Expansion vers le premium</td><td>Produits importés moins chers</td></tr>
       </tbody>
     </table>
   </div>
 
   <h3>Capslab Maroc</h3>
-
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Forces</th>
-          <th>Faiblesses</th>
-          <th>Opportunités</th>
-          <th>Menaces</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Forces</th><th>Faiblesses</th><th>Opportunités</th><th>Menaces</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Produits premium sous licences</td>
-          <td>Dépendance aux licences</td>
-          <td>Croissance du marché collector</td>
-          <td>Coût élevé des licences</td>
-        </tr>
-        <tr>
-          <td>Forte identité visuelle</td>
-          <td>Prix élevés</td>
-          <td>Expansion internationale</td>
-          <td>Concurrence New Era</td>
-        </tr>
-        <tr>
-          <td>Positionnement collectionneur</td>
-          <td>Peu ancré localement</td>
-          <td>Développement du merchandising sportif</td>
-          <td>Contrefaçon</td>
-        </tr>
-        <tr>
-          <td>Design créatif</td>
-          <td>Peu de personnalisation</td>
-          <td>Nouveaux partenariats sportifs</td>
-          <td>Saturation du marché</td>
-        </tr>
+        <tr><td>Produits premium sous licences</td><td>Dépendance aux licences</td><td>Croissance du marché collector</td><td>Coût élevé des licences</td></tr>
+        <tr><td>Forte identité visuelle</td><td>Prix élevés</td><td>Expansion internationale</td><td>Concurrence New Era</td></tr>
+        <tr><td>Positionnement collectionneur</td><td>Peu ancré localement</td><td>Développement du merchandising sportif</td><td>Contrefaçon</td></tr>
+        <tr><td>Design créatif</td><td>Peu de personnalisation</td><td>Nouveaux partenariats sportifs</td><td>Saturation du marché</td></tr>
       </tbody>
     </table>
   </div>
 
   <h3>Raja Shop</h3>
-
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Forces</th>
-          <th>Faiblesses</th>
-          <th>Opportunités</th>
-          <th>Menaces</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Forces</th><th>Faiblesses</th><th>Opportunités</th><th>Menaces</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Marque officielle du club</td>
-          <td>Produits standardisés</td>
-          <td>Développement e-commerce sportif</td>
-          <td>Contrefaçon</td>
-        </tr>
-        <tr>
-          <td>Forte communauté de supporters</td>
-          <td>Peu d’innovation produit</td>
-          <td>Croissance des fans digitaux</td>
-          <td>Concurrence des marques alternatives</td>
-        </tr>
-        <tr>
-          <td>Légitimité institutionnelle</td>
-          <td>Faible storytelling produit</td>
-          <td>Merchandising international</td>
-          <td>Saturation du marché local</td>
-        </tr>
-        <tr>
-          <td>Produits authentiques</td>
-          <td>Peu de casquettes premium</td>
-          <td>Expansion merchandising lifestyle</td>
-          <td>Perte d’engagement jeune public</td>
-        </tr>
+        <tr><td>Marque officielle du club</td><td>Produits standardisés</td><td>Développement e-commerce sportif</td><td>Contrefaçon</td></tr>
+        <tr><td>Forte communauté de supporters</td><td>Peu d’innovation produit</td><td>Croissance des fans digitaux</td><td>Concurrence des marques alternatives</td></tr>
+        <tr><td>Légitimité institutionnelle</td><td>Faible storytelling produit</td><td>Merchandising international</td><td>Saturation du marché local</td></tr>
+        <tr><td>Produits authentiques</td><td>Peu de casquettes premium</td><td>Expansion merchandising lifestyle</td><td>Perte d’engagement jeune public</td></tr>
       </tbody>
     </table>
   </div>
 
   <h3>Wydad Shop</h3>
-
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Forces</th>
-          <th>Faiblesses</th>
-          <th>Opportunités</th>
-          <th>Menaces</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Forces</th><th>Faiblesses</th><th>Opportunités</th><th>Menaces</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Marque officielle du club</td>
-          <td>Offre limitée en produits lifestyle</td>
-          <td>Développement du fan commerce</td>
-          <td>Produits non officiels</td>
-        </tr>
-        <tr>
-          <td>Forte notoriété nationale</td>
-          <td>Peu de personnalisation</td>
-          <td>Croissance du digital</td>
-          <td>Concurrence internationale</td>
-        </tr>
-        <tr>
-          <td>Communauté très engagée</td>
-          <td>Design peu innovant</td>
-          <td>Nouveaux produits collectors</td>
-          <td>Évolution des tendances</td>
-        </tr>
-        <tr>
-          <td>Produits certifiés</td>
-          <td>Expérience e-commerce classique</td>
-          <td>Merchandising premium</td>
-          <td>Désengagement génération Z</td>
-        </tr>
+        <tr><td>Marque officielle du club</td><td>Offre limitée en produits lifestyle</td><td>Développement du fan commerce</td><td>Produits non officiels</td></tr>
+        <tr><td>Forte notoriété nationale</td><td>Peu de personnalisation</td><td>Croissance du digital</td><td>Concurrence internationale</td></tr>
+        <tr><td>Communauté très engagée</td><td>Design peu innovant</td><td>Nouveaux produits collectors</td><td>Évolution des tendances</td></tr>
+        <tr><td>Produits certifiés</td><td>Expérience e-commerce classique</td><td>Merchandising premium</td><td>Désengagement génération Z</td></tr>
       </tbody>
     </table>
   </div>
 
   <h3>FRMF Store</h3>
-
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Forces</th>
-          <th>Faiblesses</th>
-          <th>Opportunités</th>
-          <th>Menaces</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Forces</th><th>Faiblesses</th><th>Opportunités</th><th>Menaces</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Soutien institutionnel fort</td>
-          <td>Offre limitée à l’équipe nationale</td>
-          <td>Coupe du Monde 2030</td>
-          <td>Concurrence des marques privées</td>
-        </tr>
-        <tr>
-          <td>Produits officiels</td>
-          <td>Peu de produits lifestyle</td>
-          <td>Développement du merchandising global</td>
-          <td>Fluctuation des performances sportives</td>
-        </tr>
-        <tr>
-          <td>Visibilité médiatique</td>
-          <td>Faible innovation digitale</td>
-          <td>Expansion internationale</td>
-          <td>Saturation du marché</td>
-        </tr>
-        <tr>
-          <td>Distribution officielle</td>
-          <td>Peu de storytelling</td>
-          <td>Croissance des fans digitaux</td>
-          <td>Évolution des attentes consommateurs</td>
-        </tr>
+        <tr><td>Soutien institutionnel fort</td><td>Offre limitée à l’équipe nationale</td><td>Coupe du Monde 2030</td><td>Concurrence des marques privées</td></tr>
+        <tr><td>Produits officiels</td><td>Peu de produits lifestyle</td><td>Développement du merchandising global</td><td>Fluctuation des performances sportives</td></tr>
+        <tr><td>Visibilité médiatique</td><td>Faible innovation digitale</td><td>Expansion internationale</td><td>Saturation du marché</td></tr>
+        <tr><td>Distribution officielle</td><td>Peu de storytelling</td><td>Croissance des fans digitaux</td><td>Évolution des attentes consommateurs</td></tr>
       </tbody>
     </table>
   </div>
 
   <h3>New Era</h3>
-
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Forces</th>
-          <th>Faiblesses</th>
-          <th>Opportunités</th>
-          <th>Menaces</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Forces</th><th>Faiblesses</th><th>Opportunités</th><th>Menaces</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Leader mondial des casquettes</td>
-          <td>Prix élevés</td>
-          <td>Expansion mondiale du sport</td>
-          <td>Contrefaçon massive</td>
-        </tr>
-        <tr>
-          <td>Licences officielles fortes</td>
-          <td>Peu adapté aux marchés locaux</td>
-          <td>Croissance du merchandising digital</td>
-          <td>Concurrence émergente niche</td>
-        </tr>
-        <tr>
-          <td>Image de marque très forte</td>
-          <td>Production standardisée</td>
-          <td>Nouvelles collaborations sportives</td>
-          <td>Marques alternatives spécialisées</td>
-        </tr>
-        <tr>
-          <td>Large distribution internationale</td>
-          <td>Peu de personnalisation poussée</td>
-          <td>Marché du streetwear en croissance</td>
-          <td>Saturation du marché global</td>
-        </tr>
+        <tr><td>Leader mondial des casquettes</td><td>Prix élevés</td><td>Expansion mondiale du sport</td><td>Contrefaçon massive</td></tr>
+        <tr><td>Licences officielles fortes</td><td>Peu adapté aux marchés locaux</td><td>Croissance du merchandising digital</td><td>Concurrence émergente niche</td></tr>
+        <tr><td>Image de marque très forte</td><td>Production standardisée</td><td>Nouvelles collaborations sportives</td><td>Marques alternatives spécialisées</td></tr>
+        <tr><td>Large distribution internationale</td><td>Peu de personnalisation poussée</td><td>Marché du streetwear en croissance</td><td>Saturation du marché global</td></tr>
       </tbody>
     </table>
   </div>
 
   <h3>Mitchell & Ness</h3>
-
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Forces</th>
-          <th>Faiblesses</th>
-          <th>Opportunités</th>
-          <th>Menaces</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Forces</th><th>Faiblesses</th><th>Opportunités</th><th>Menaces</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Spécialiste du vintage sportif</td>
-          <td>Positionnement très niche</td>
-          <td>Retour du vintage dans la mode</td>
-          <td>Concurrence des marques modernes</td>
-        </tr>
-        <tr>
-          <td>Forte valeur émotionnelle</td>
-          <td>Prix élevés</td>
-          <td>Croissance du marché collector</td>
-          <td>Évolution rapide des tendances</td>
-        </tr>
-        <tr>
-          <td>Collections historiques</td>
-          <td>Catalogue limité</td>
-          <td>Expansion internationale</td>
-          <td>Copie des designs</td>
-        </tr>
-        <tr>
-          <td>Image premium</td>
-          <td>Peu d’innovation digitale</td>
-          <td>Collaborations sport/lifestyle</td>
-          <td>Dépendance aux licences</td>
-        </tr>
+        <tr><td>Spécialiste du vintage sportif</td><td>Positionnement très niche</td><td>Retour du vintage dans la mode</td><td>Concurrence des marques modernes</td></tr>
+        <tr><td>Forte valeur émotionnelle</td><td>Prix élevés</td><td>Croissance du marché collector</td><td>Évolution rapide des tendances</td></tr>
+        <tr><td>Collections historiques</td><td>Catalogue limité</td><td>Expansion internationale</td><td>Copie des designs</td></tr>
+        <tr><td>Image premium</td><td>Peu d’innovation digitale</td><td>Collaborations sport/lifestyle</td><td>Dépendance aux licences</td></tr>
       </tbody>
     </table>
   </div>
 
   <h3>Nike / Adidas / Puma / Under Armour (groupe)</h3>
-
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Forces</th>
-          <th>Faiblesses</th>
-          <th>Opportunités</th>
-          <th>Menaces</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Forces</th><th>Faiblesses</th><th>Opportunités</th><th>Menaces</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Marques mondiales</td>
-          <td>Pas spécialisées casquettes</td>
-          <td>Croissance du sportwear</td>
-          <td>Concurrence spécialisée</td>
-        </tr>
-        <tr>
-          <td>Distribution massive</td>
-          <td>Produits standardisés</td>
-          <td>Développement lifestyle</td>
-          <td>Marques niche plus agiles</td>
-        </tr>
-        <tr>
-          <td>Innovation forte</td>
-          <td>Peu de storytelling local</td>
-          <td>Expansion e-commerce</td>
-          <td>Saturation du marché</td>
-        </tr>
-        <tr>
-          <td>Image premium</td>
-          <td>Faible personnalisation</td>
-          <td>Marché africain en croissance</td>
-          <td>Perte de jeunes consommateurs</td>
-        </tr>
+        <tr><td>Marques mondiales</td><td>Pas spécialisées casquettes</td><td>Croissance du sportwear</td><td>Concurrence spécialisée</td></tr>
+        <tr><td>Distribution massive</td><td>Produits standardisés</td><td>Développement lifestyle</td><td>Marques niche plus agiles</td></tr>
+        <tr><td>Innovation forte</td><td>Peu de storytelling local</td><td>Expansion e-commerce</td><td>Saturation du marché</td></tr>
+        <tr><td>Image premium</td><td>Faible personnalisation</td><td>Marché africain en croissance</td><td>Perte de jeunes consommateurs</td></tr>
       </tbody>
     </table>
   </div>
@@ -976,7 +990,7 @@
   </div>
 </section>
 
-<section id="fonctionnalites">
+<section class="section-card reveal red-glow" id="fonctionnalites">
   <h2>6. Analyse des fonctionnalités des sites web des concurrents</h2>
 
   <h3>6.1 Analyse fonctionnelle détaillée</h3>
@@ -1024,7 +1038,7 @@
   </div>
 </section>
 
-<section id="industrie">
+<section class="section-card reveal" id="industrie">
   <h2>7. Faisabilité industrielle du projet</h2>
 
   <h3>Modèle industriel retenu</h3>
@@ -1035,12 +1049,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Élément personnalisé</th>
-          <th>Description</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Élément personnalisé</th><th>Description</th></tr></thead>
       <tbody>
         <tr><td>Forme de la casquette</td><td>Snapback, Trucker, Dad Cap, Baseball Cap, etc.</td></tr>
         <tr><td>Matière textile</td><td>Coton, polyester, coton premium, matières recyclées</td></tr>
@@ -1059,12 +1068,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Norme</th>
-          <th>Description</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Norme</th><th>Description</th></tr></thead>
       <tbody>
         <tr><td>ISO 9001</td><td>Management de la qualité</td></tr>
         <tr><td>OEKO-TEX Standard 100</td><td>Sécurité des textiles</td></tr>
@@ -1127,7 +1131,7 @@
   <p>BENART adopte une stratégie de sourcing multi-pays combinant le Maroc, la Turquie et la Chine afin d’optimiser ses coûts de production, garantir la qualité des produits et assurer une montée en puissance progressive de ses volumes de production.</p>
 </section>
 
-<section id="technique">
+<section class="section-card reveal red-glow" id="technique">
   <h2>8. Faisabilité technique du projet BENART</h2>
 
   <h3>1. Prérequis techniques (équipe nécessaire)</h3>
@@ -1138,12 +1142,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Profil</th>
-          <th>Rôle</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Profil</th><th>Rôle</th></tr></thead>
       <tbody>
         <tr><td>Designer produit / Directeur artistique</td><td>Création de l’identité visuelle des collections, concepts des casquettes, logos, motifs et direction artistique</td></tr>
         <tr><td>Designer graphique</td><td>Création des visuels, broderies, patchs, éléments graphiques et supports marketing</td></tr>
@@ -1161,12 +1160,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Profil</th>
-          <th>Rôle</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Profil</th><th>Rôle</th></tr></thead>
       <tbody>
         <tr><td>Brand Manager</td><td>Définition de la stratégie de marque, positionnement, valeurs et cohérence de l’identité BENART</td></tr>
         <tr><td>Content Creator / Créateur de contenu</td><td>Production de photos, vidéos, reels, interviews, contenus lifestyle et contenus liés à la culture supporters</td></tr>
@@ -1184,12 +1178,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Profil</th>
-          <th>Rôle</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Profil</th><th>Rôle</th></tr></thead>
       <tbody>
         <tr><td>Développeur web Full-Stack</td><td>Création et maintenance du site e-commerce</td></tr>
         <tr><td>Designer UI/UX</td><td>Conception d’une expérience utilisateur moderne inspirée des marques streetwear</td></tr>
@@ -1205,12 +1194,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Poste initial</th>
-          <th>Missions regroupées</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Poste initial</th><th>Missions regroupées</th></tr></thead>
       <tbody>
         <tr><td>Directeur artistique</td><td>Design produit + identité visuelle + direction des campagnes</td></tr>
         <tr><td>Content Creator polyvalent</td><td>Photo + vidéo + réseaux sociaux</td></tr>
@@ -1225,12 +1209,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Catégorie</th>
-          <th>Éléments nécessaires</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Catégorie</th><th>Éléments nécessaires</th></tr></thead>
       <tbody>
         <tr><td>Prérequis technologiques</td><td>Plateforme e-commerce (Shopify, WooCommerce ou PrestaShop), CRM, gestion des stocks, passerelles de paiement, Google Analytics, Google Search Console, Meta Business Suite, outils d'email marketing, certificat SSL, hébergement sécurisé, sauvegardes automatiques, pare-feu et protection des données</td></tr>
         <tr><td>Outils IA</td><td>ChatGPT (création de contenu, service client, brainstorming), outils de génération d'images IA (Midjourney, Adobe Firefly), chatbot IA, outils d'analyse marketing et de personnalisation client</td></tr>
@@ -1260,7 +1239,7 @@
   <p>L’objectif est de créer une relation culturelle avec le client, similaire aux marques streetwear qui vendent une appartenance et une histoire, pas uniquement un produit.</p>
 </section>
 
-<section id="finance">
+<section class="section-card reveal" id="finance">
   <h2>9. Étude financière du projet BENART (version lancement)</h2>
 
   <h3>1. Budgétisation du projet en jours-homme (JH)</h3>
@@ -1295,13 +1274,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Poste</th>
-          <th>Description</th>
-          <th>Budget estimatif (MAD)</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Poste</th><th>Description</th><th>Budget estimatif (MAD)</th></tr></thead>
       <tbody>
         <tr><td>Achat marchandises / matières premières</td><td>Première production de casquettes, tissus, accessoires</td><td>50 000</td></tr>
         <tr><td>Prototypes et échantillons</td><td>Création et validation des premiers modèles</td><td>10 000</td></tr>
@@ -1321,12 +1294,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Catégorie</th>
-          <th>Budget estimatif</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Catégorie</th><th>Budget estimatif</th></tr></thead>
       <tbody>
         <tr><td>Ressources humaines (245 JH)</td><td>104 000 MAD</td></tr>
         <tr><td>Logistique et lancement</td><td>152 000 MAD</td></tr>
@@ -1336,19 +1304,14 @@
   </div>
 </section>
 
-<section id="communication">
+<section class="section-card reveal red-glow" id="communication">
   <h2>10. Stratégie de communication BENART</h2>
 
   <p>La stratégie de communication de BENART repose sur la construction d’une identité de marque forte autour du football marocain, du streetwear et du storytelling. L’objectif n’est pas seulement de vendre des casquettes, mais de créer une communauté engagée autour de la culture footballistique.</p>
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Axe de communication</th>
-          <th>Actions prévues</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Axe de communication</th><th>Actions prévues</th></tr></thead>
       <tbody>
         <tr><td>Partenariats publicitaires</td><td>Collaboration avec des créateurs de contenu football, influenceurs marocains, pages spécialisées dans le football national, communautés de supporters et médias sportifs digitaux. Mise en place de partenariats avec des clubs de la BOTOLA PRO , associations sportives et événements footballistiques pour augmenter la visibilité de la marque.</td></tr>
         <tr><td>Ambassadeurs de marque</td><td>Sélection de profils proches de l’univers BENART : supporters, anciens joueurs, créateurs de contenu football, artistes streetwear. Leur rôle est de représenter la marque et de renforcer sa crédibilité auprès de la communauté.</td></tr>
@@ -1367,12 +1330,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Objectif</th>
-          <th>Moyen utilisé</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Objectif</th><th>Moyen utilisé</th></tr></thead>
       <tbody>
         <tr><td>Construire la notoriété</td><td>Influence, publicité digitale, partenariats</td></tr>
         <tr><td>Créer une communauté</td><td>Réseaux sociaux, contenus participatifs, storytelling</td></tr>
@@ -1383,19 +1341,14 @@
   </div>
 </section>
 
-<section id="contraintes">
+<section class="section-card reveal" id="contraintes">
   <h2>11. Limites / contraintes à la création et à l’implémentation du projet BENART</h2>
 
   <p>La création de BENART présente plusieurs contraintes liées à la construction d’une nouvelle marque, à la maîtrise des compétences nécessaires, à l’adaptation d’un concept international au contexte marocain et aux ressources financières et industrielles nécessaires à son développement.</p>
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Limites / Contraintes</th>
-          <th>Description</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Limites / Contraintes</th><th>Description</th></tr></thead>
       <tbody>
         <tr><td>Manque de connaissance du domaine (littératie métier)</td><td>Le projet nécessite une maîtrise de plusieurs domaines : industrie textile, fabrication des casquettes, gestion d’une marque streetwear, culture footballistique et fonctionnement des communautés de supporters. Une phase d’apprentissage et d’acquisition d’expertise sera nécessaire pour comprendre l’ensemble de la chaîne de valeur.</td></tr>
         <tr><td>Littératie numérique</td><td>Le développement d’une marque digitale nécessite des compétences en e-commerce, marketing digital, référencement SEO/GEO, analyse des données, gestion des réseaux sociaux et utilisation des outils d’intelligence artificielle. Le manque de compétences dans ces domaines peut nécessiter le recours à des experts ou des formations spécifiques.</td></tr>
@@ -1417,12 +1370,7 @@
 
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Domaine</th>
-          <th>Contrainte principale</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Domaine</th><th>Contrainte principale</th></tr></thead>
       <tbody>
         <tr><td>Compétences</td><td>Acquisition des connaissances nécessaires dans le textile, le digital, le branding et le storytelling.</td></tr>
         <tr><td>Culture & identité</td><td>Adapter une culture internationale de la casquette et du streetwear à la culture du supporter marocain.</td></tr>
@@ -1440,6 +1388,29 @@
 </section>
 
 </main>
+
+<script>
+  const progress = document.getElementById("progress");
+
+  window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const percent = (scrollTop / docHeight) * 100;
+    progress.style.width = percent + "%";
+  });
+
+  const revealElements = document.querySelectorAll(".reveal");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add("show");
+      }
+    });
+  }, {threshold:0.12});
+
+  revealElements.forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
