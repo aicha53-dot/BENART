@@ -8,19 +8,13 @@
   <style>
     :root{
       --black:#020302;
-      --black2:#050806;
       --dark:#0a0f0c;
-      --card:rgba(255,255,255,.07);
-      --card2:rgba(255,255,255,.10);
       --border:rgba(255,255,255,.14);
       --green:#00e676;
-      --green2:#00b85c;
       --red:#e01928;
       --blue:#4d8dff;
       --teal:#69d6c2;
       --white:#ffffff;
-      --soft:#dce7df;
-      --muted:#aebbb3;
       --shadow:0 30px 90px rgba(0,0,0,.55);
       --radius:28px;
     }
@@ -94,7 +88,7 @@
       left:0;
       width:100%;
       z-index:1500;
-      background:rgba(0,0,0,.72);
+      background:rgba(0,0,0,.76);
       backdrop-filter:blur(18px);
       border-bottom:1px solid var(--border);
     }
@@ -119,14 +113,22 @@
       min-width:230px;
     }
 
-    .brand img{
+    .clean-logo-small{
       width:86px;
       height:54px;
-      object-fit:contain;
       border-radius:8px;
       background:#000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-size:14px;
+      font-weight:1000;
+      letter-spacing:1px;
+      font-family:Arial Black, Arial, Helvetica, sans-serif;
+      transform:skewX(-8deg);
+      border:1px solid rgba(255,255,255,.16);
       box-shadow:none;
-      filter:none;
     }
 
     .brand span{
@@ -243,7 +245,6 @@
       width:100%;
       height:100%;
       object-fit:cover;
-      filter:none;
     }
 
     .hero-image.logo{
@@ -251,19 +252,24 @@
       align-items:center;
       justify-content:center;
       padding:34px;
-      box-shadow:none;
       background:#000;
       border:1px solid rgba(255,255,255,.12);
+      box-shadow:none;
     }
 
     .hero-image.logo::after{
       display:none;
     }
 
-    .hero-image.logo img{
-      object-fit:contain;
-      filter:none;
-      box-shadow:none;
+    .clean-logo-big{
+      color:#fff;
+      font-size:clamp(52px,7vw,110px);
+      font-weight:1000;
+      letter-spacing:-4px;
+      font-family:Arial Black, Arial, Helvetica, sans-serif;
+      transform:skewX(-8deg);
+      text-align:center;
+      line-height:1;
     }
 
     .hero-title{
@@ -560,9 +566,10 @@
         font-size:16px;
       }
 
-      .brand img{
+      .clean-logo-small{
         width:68px;
         height:44px;
+        font-size:11px;
       }
 
       .hero{
@@ -637,7 +644,7 @@
 <header>
   <div class="nav">
     <a href="#top" class="brand">
-      <img src="benart-logo.png" alt="Logo BENART">
+      <div class="clean-logo-small">BENART</div>
       <span>BENART<br><small>MOROCCO</small></span>
     </a>
 
@@ -668,7 +675,7 @@
       </div>
 
       <div class="hero-image logo">
-        <img src="benart-logo.png" alt="Logo BENART">
+        <div class="clean-logo-big">BENART</div>
       </div>
 
       <div class="hero-image">
