@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="BENART Morocco - portfolio interactif d'un projet e-commerce de casquettes premium inspirées du football marocain." />
+  <title>BENART Morocco | Portfolio interactif</title>
+  <link rel="preload" href="assets/benart-drop-raja.webp" as="image">
+  <link rel="preload" href="assets/benart-logo.webp" as="image">
+  <style>
+    :root{
+      --bg:#050606;
+      --bg-2:#0a1010;
+      --card:#0d1313cc;
+      --card-solid:#0e1616;
+      --text:#f6fff8;
+      --muted:#a9b8ad;
+      --line:rgba(255,255,255,.12);
+      --green:#13d66f;
+      --green-2:#0a8c4b;
+      --red:#ff2438;
+      --gold:#e6c15d;
+      --white:#ffffff;
+      --shadow:0 24px 90px rgba(0,0,0,.55);
+      --radius:26px;
+      --max:1220px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(19,214,111,.18), transparent 34rem),
+        radial-gradient(circle at 88% 16%, rgba(255,36,56,.11), transparent 26rem),
+        linear-gradient(180deg,#020303 0%,#071010 42%,#040505 100%);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed; inset:0; pointer-events:none; z-index:-1;
+      background:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:48px 48px;
+      mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 75%);
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    ::selection{background:rgba(19,214,111,.35)}
+    .progress{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--green),var(--red));z-index:1000;box-shadow:0 0 18px var(--green)}
+    .noise{position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .topbar{position:sticky;top:0;z-index:900;backdrop-filter:blur(18px);background:linear-gradient(180deg,rgba(2,3,3,.88),rgba(2,3,3,.52));border-bottom:1px solid var(--line)}
+    .nav{max-width:var(--max);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 22px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:180px}
+    .brand img{height:34px;width:92px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(255,255,255,.35))}
+    .brand span{font-weight:800;letter-spacing:.16em;font-size:.72rem;color:#dfffe9;text-transform:uppercase}
+    .links{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .links a,.ghost-btn{border:1px solid transparent;color:#dbe9df;font-size:.86rem;padding:9px 11px;border-radius:999px;transition:.25s;cursor:pointer;background:transparent}
+    .links a:hover,.links a.active,.ghost-btn:hover{border-color:rgba(19,214,111,.45);background:rgba(19,214,111,.10);color:#fff;box-shadow:0 0 24px rgba(19,214,111,.12)}
+    .menuBtn{display:none;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);border-radius:12px;padding:9px 11px}
+    .hero{min-height:calc(100vh - 68px);position:relative;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line)}
+    .hero::before{content:"";position:absolute;inset:0;background:url('assets/benart-drop-raja.webp') center/cover no-repeat;filter:saturate(1.1) contrast(1.05);transform:scale(1.03);opacity:.68}
+    .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#020303 0%,rgba(2,3,3,.80) 26%,rgba(2,3,3,.32) 58%,rgba(2,3,3,.86) 100%),linear-gradient(0deg,#020303 0%,transparent 38%,rgba(0,0,0,.25) 100%)}
+    .hero-inner{max-width:var(--max);width:100%;position:relative;z-index:2;padding:82px 22px 60px;display:grid;grid-template-columns:1.06fr .94fr;gap:42px;align-items:center}
+    .badge{display:inline-flex;gap:9px;align-items:center;border:1px solid rgba(19,214,111,.35);background:rgba(7,16,16,.65);padding:8px 13px;border-radius:999px;color:#d7ffe3;font-weight:700;font-size:.84rem;box-shadow:0 0 26px rgba(19,214,111,.14)}
+    .dot{width:8px;height:8px;border-radius:999px;background:var(--green);box-shadow:0 0 13px var(--green)}
+    h1{margin:24px 0 14px;font-size:clamp(3.1rem,8vw,8.8rem);line-height:.82;letter-spacing:-.08em;text-transform:uppercase;text-shadow:0 16px 55px rgba(0,0,0,.72)}
+    .gradient-text{background:linear-gradient(95deg,#fff 18%,#cfffe3 42%,#13d66f 62%,#ff3648 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:clamp(1.05rem,2vw,1.38rem);line-height:1.72;color:#e0efe4;max-width:680px;margin:0 0 28px}
+    .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+    .btn{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:13px 18px;font-weight:800;letter-spacing:.01em;transition:.25s;cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,var(--green),#9effc7);color:#02120a;border-color:transparent;box-shadow:0 18px 44px rgba(19,214,111,.22)}
+    .btn.secondary{background:rgba(255,255,255,.06);color:#fff}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 18px 44px rgba(0,0,0,.32)}
+    .hero-card{position:relative;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;overflow:hidden}
+    .hero-card::before{content:"";position:absolute;inset:-80px;background:radial-gradient(circle at 50% 15%,rgba(255,255,255,.20),transparent 36%),radial-gradient(circle at 82% 60%,rgba(19,214,111,.26),transparent 36%);pointer-events:none}
+    .logo-panel{position:relative;min-height:260px;display:grid;place-items:center;border-radius:21px;overflow:hidden;background:#020303;border:1px solid rgba(255,255,255,.09)}
+    .logo-panel img{width:78%;filter:drop-shadow(0 0 28px rgba(255,255,255,.48))}
+    .mini-stats{position:relative;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+    .mini-stat{border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(0,0,0,.28);padding:15px}
+    .mini-stat strong{display:block;font-size:1.6rem;line-height:1;color:#fff}.mini-stat span{color:var(--muted);font-size:.83rem}
+    section{padding:92px 22px;position:relative}
+    .container{max-width:var(--max);margin:auto}
+    .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
+    .eyebrow{display:inline-block;text-transform:uppercase;letter-spacing:.22em;font-size:.78rem;color:var(--green);font-weight:900;margin-bottom:10px}
+    h2{font-size:clamp(2rem,4vw,4.2rem);letter-spacing:-.055em;line-height:1;margin:0}.section-title p{color:var(--muted);max-width:520px;line-height:1.75;margin:0}
+    .grid{display:grid;gap:18px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));border-radius:var(--radius);padding:24px;box-shadow:0 18px 55px rgba(0,0,0,.24);position:relative;overflow:hidden}
+    .card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(19,214,111,.12),transparent 42%);pointer-events:none;opacity:.75}.card.red::after{background:radial-gradient(circle at top right,rgba(255,36,56,.16),transparent 42%)}
+    .card>*{position:relative;z-index:1}.card h3{margin:0 0 12px;font-size:1.24rem}.card p,.card li{color:#c9d8ce;line-height:1.72}.card ul{padding-left:18px;margin:12px 0 0}.icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(19,214,111,.13);border:1px solid rgba(19,214,111,.25);margin-bottom:16px;font-size:1.2rem}.icon.red{background:rgba(255,36,56,.12);border-color:rgba(255,36,56,.25)}
+    .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-46px;position:relative;z-index:3}.kpi{border:1px solid rgba(255,255,255,.13);background:rgba(7,13,13,.82);backdrop-filter:blur(14px);border-radius:22px;padding:20px;box-shadow:var(--shadow)}.kpi .num{font-size:clamp(1.7rem,4vw,3rem);font-weight:950;letter-spacing:-.05em}.kpi span{color:var(--muted);font-size:.88rem}
+    .split{display:grid;grid-template-columns:.86fr 1.14fr;gap:22px;align-items:stretch}.visual-card{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:#030606;box-shadow:var(--shadow);min-height:420px}.visual-card img{width:100%;height:100%;object-fit:cover}.visual-overlay{position:absolute;inset:auto 22px 22px 22px;border:1px solid rgba(255,255,255,.14);background:rgba(2,3,3,.58);backdrop-filter:blur(12px);border-radius:20px;padding:16px}.visual-wrap{position:relative;height:100%}.tag-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.tag{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:999px;padding:8px 10px;color:#dce8df;font-size:.84rem}
+    .story-card{display:grid;grid-template-columns:1fr 1fr;gap:18px}.drop{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#020303}.drop img{height:280px;width:100%;object-fit:cover}.drop-body{padding:19px}.drop .label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.84rem}.pill{display:inline-flex;border-radius:999px;padding:6px 10px;background:rgba(19,214,111,.12);color:#d8ffe5;border:1px solid rgba(19,214,111,.28);font-size:.78rem;font-weight:800}.pill.red{background:rgba(255,36,56,.11);border-color:rgba(255,36,56,.28);color:#ffe1e4}.drop h3{margin:12px 0 8px}.drop p{color:#c7d3cb;line-height:1.65;margin:0}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.tab{border:1px solid var(--line);background:rgba(255,255,255,.045);color:#d8e6dd;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer;transition:.25s}.tab.active,.tab:hover{background:rgba(19,214,111,.14);border-color:rgba(19,214,111,.35);color:#fff}
+    .swot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.swot-box{border:1px solid var(--line);border-radius:20px;padding:18px;background:rgba(255,255,255,.045)}.swot-box h4{margin:0 0 10px;color:#fff}.swot-box ul{margin:0;padding-left:17px;color:#cbd8cf;line-height:1.62}.swot-box:nth-child(1){border-color:rgba(19,214,111,.24)}.swot-box:nth-child(2){border-color:rgba(255,255,255,.13)}.swot-box:nth-child(3){border-color:rgba(230,193,93,.24)}.swot-box:nth-child(4){border-color:rgba(255,36,56,.24)}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.035);box-shadow:var(--shadow)}table{width:100%;border-collapse:collapse;min-width:880px}th,td{padding:14px 15px;border-bottom:1px solid rgba(255,255,255,.09);text-align:left;vertical-align:top}th{position:sticky;top:0;background:#111a1a;color:#fff;z-index:2}td{color:#cbd8cf}.check{color:var(--green);font-weight:900}.no{color:#ff6b77;font-weight:900}.maybe{color:var(--gold);font-weight:900}.searchbox{width:100%;max-width:420px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:#fff;border-radius:999px;padding:13px 16px;margin-bottom:14px;outline:none}.searchbox:focus{border-color:rgba(19,214,111,.55);box-shadow:0 0 0 4px rgba(19,214,111,.1)}
+    .process{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.step{position:relative;border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:22px;padding:20px}.step .n{width:34px;height:34px;border-radius:999px;display:grid;place-items:center;background:var(--green);color:#05120a;font-weight:950;margin-bottom:14px}.step:not(:last-child)::after{content:"";position:absolute;right:-18px;top:36px;width:22px;height:2px;background:linear-gradient(90deg,var(--green),transparent)}
+    .supplier{display:flex;flex-direction:column;gap:12px}.supplier .flag{font-size:1.8rem}.supplier strong{font-size:1.2rem}.supplier small{color:var(--muted);line-height:1.6}.score{height:8px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}.score i{display:block;height:100%;width:var(--w);background:linear-gradient(90deg,var(--green),var(--gold));border-radius:999px}
+    .accordion{display:grid;gap:12px}.acc{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:rgba(255,255,255,.04)}.acc button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;background:transparent;color:#fff;border:0;text-align:left;font-weight:900;font-size:1rem;cursor:pointer}.acc .content{max-height:0;overflow:hidden;transition:max-height .35s ease}.acc.open .content{max-height:520px}.acc .content-inner{padding:0 20px 20px;color:#c8d7ce;line-height:1.7}
+    .budget-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}.chart-card{padding:24px;border-radius:var(--radius);border:1px solid var(--line);background:rgba(255,255,255,.045);box-shadow:var(--shadow)}canvas{width:100%;height:290px;display:block}.big-total{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid rgba(19,214,111,.28);background:linear-gradient(135deg,rgba(19,214,111,.14),rgba(255,255,255,.04));border-radius:24px;padding:22px;margin-top:18px}.big-total strong{font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-.055em}.timeline{position:relative;display:grid;gap:15px}.milestone{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:flex-start;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:22px;padding:18px}.milestone time{font-weight:950;color:var(--green)}.milestone h4{margin:0 0 6px}.milestone p{margin:0;color:#cbd7ce;line-height:1.6}
+    .comm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.comm-card{border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:22px;padding:20px}.comm-card h3{margin:0 0 8px}.comm-card p{margin:0;color:#c9d8cf;line-height:1.62}
+    .risk{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.risk-item{border:1px solid var(--line);border-radius:20px;padding:18px;background:rgba(255,255,255,.04)}.risk-item b{color:#fff}.risk-item p{margin:8px 0 0;color:#cbd8cf;line-height:1.6}
+    .footer{padding:44px 22px;border-top:1px solid var(--line);background:#020303}.footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap;color:#91a095}.footer img{height:34px;width:100px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,255,255,.25))}
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .7s ease}.reveal.visible{opacity:1;transform:none}
+    .to-top{position:fixed;right:18px;bottom:18px;width:48px;height:48px;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(5,8,8,.7);backdrop-filter:blur(10px);color:#fff;display:grid;place-items:center;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:800}.to-top.show{opacity:1;pointer-events:auto}
+    .print-note{font-size:.86rem;color:var(--muted);margin-top:10px}
+    @media (max-width:1000px){.hero-inner,.split,.budget-layout{grid-template-columns:1fr}.grid.four,.kpi-row,.process,.comm-grid{grid-template-columns:repeat(2,1fr)}.swot-grid{grid-template-columns:repeat(2,1fr)}.story-card{grid-template-columns:1fr}.hero{min-height:auto}.visual-card{min-height:330px}}
+    @media (max-width:760px){.menuBtn{display:block}.links{display:none;position:absolute;left:14px;right:14px;top:62px;background:rgba(2,3,3,.96);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:var(--shadow)}.links.open{display:flex;flex-direction:column;align-items:stretch}.links a,.ghost-btn{text-align:left}.hero-inner{padding-top:52px}.grid.two,.grid.three,.grid.four,.kpi-row,.process,.comm-grid,.risk,.swot-grid,.mini-stats{grid-template-columns:1fr}.milestone{grid-template-columns:1fr}section{padding:68px 18px}.nav{padding:12px 14px}h1{font-size:3.5rem}.section-title{display:block}.section-title p{margin-top:16px}.step:not(:last-child)::after{display:none}}
+    @media print{.topbar,.progress,.to-top,.noise,.cta-row,.searchbox{display:none!important}body{background:white;color:#111}section{page-break-inside:avoid;padding:40px 0}.card,.table-wrap,.chart-card,.kpi,.hero-card{box-shadow:none;background:white;color:#111;border-color:#ddd}.hero{min-height:auto}.hero::before,.hero::after{display:none}.hero-inner{display:block;padding:20px 0}.gradient-text{color:#111;background:none}.lead,.card p,.card li,td,.section-title p{color:#333}.footer{background:white;color:#333}}
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <div class="noise"></div>
+  <header class="topbar">
+    <nav class="nav">
+      <a class="brand" href="#home" aria-label="BENART accueil"><img src="assets/benart-logo.webp" alt="Logo BENART"><span>Morocco</span></a>
+      <button class="menuBtn" id="menuBtn">☰ Menu</button>
+      <div class="links" id="links">
+        <a href="#concept">Concept</a>
+        <a href="#innovation">Innovation</a>
+        <a href="#benchmark">Benchmark</a>
+        <a href="#faisabilite">Faisabilité</a>
+        <a href="#finance">Budget</a>
+        <a href="#communication">Communication</a>
+        <a href="#risques">Contraintes</a>
+        <button class="ghost-btn" onclick="window.print()">Exporter PDF</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <div>
+          <span class="badge"><i class="dot"></i> Projet e-commerce · streetwear · football marocain</span>
+          <h1><span class="gradient-text">BENART</span><br>Morocco</h1>
+          <p class="lead">Plateforme e-commerce dédiée à la conception, la personnalisation et la commercialisation de casquettes premium en séries limitées, inspirées de la Botola Pro, des tifos, des tribunes et de l’identité des supporters marocains.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="#concept">Découvrir le rapport →</a>
+            <a class="btn secondary" href="#collections">Voir les collections</a>
+          </div>
+          <p class="print-note">Portfolio interactif prêt pour GitHub Pages. Toutes les sections suivent la démarche du rapport BENART.</p>
+        </div>
+        <aside class="hero-card reveal" aria-label="Résumé BENART">
+          <div class="logo-panel"><img src="assets/benart-logo.webp" alt="Logo lumineux BENART"></div>
+          <div class="mini-stats">
+            <div class="mini-stat"><strong class="count" data-target="245">0</strong><span>Jours-homme estimés</span></div>
+            <div class="mini-stat"><strong><span class="count" data-target="256">0</span>K</strong><span>Budget initial MAD</span></div>
+            <div class="mini-stat"><strong>IA + AR</strong><span>Recommandation, design et essayage</span></div>
+            <div class="mini-stat"><strong>OEM</strong><span>Production externalisée premium</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="container kpi-row reveal">
+      <div class="kpi"><div class="num">Limited</div><span>Collections rares et numérotées pour renforcer l’exclusivité.</span></div>
+      <div class="kpi"><div class="num">Story</div><span>Chaque casquette raconte un club, un derby, un tifo ou un moment fort.</span></div>
+      <div class="kpi"><div class="num">Premium</div><span>Positionnement entre merchandising sportif, streetwear et objet collector.</span></div>
+      <div class="kpi"><div class="num">Digital</div><span>E-commerce, personnalisation IA, recommandations et expérience immersive.</span></div>
+    </div>
+
+    <section id="concept">
+      <div class="container split">
+        <div class="visual-card reveal">
+          <div class="visual-wrap">
+            <img src="assets/benart-drop-raja.webp" alt="Collection BENART inspirée du football marocain">
+            <div class="visual-overlay">
+              <span class="pill">Drop Vert · Tribunes</span>
+              <h3>Une marque qui vend une appartenance</h3>
+              <p>BENART ne vend pas seulement une casquette : il vend une histoire, une émotion et un symbole culturel.</p>
+            </div>
+          </div>
+        </div>
+        <div class="grid two">
+          <article class="card reveal">
+            <div class="icon">01</div>
+            <h2>Concept</h2>
+            <p>BENART Morocco est une marque e-commerce spécialisée dans les casquettes premium inspirées de l’univers du football marocain, de l’histoire des clubs, des supporters, des tifos et des événements marquants.</p>
+            <div class="tag-list"><span class="tag">Casquettes premium</span><span class="tag">Football marocain</span><span class="tag">Séries limitées</span><span class="tag">Culture supporters</span></div>
+          </article>
+          <article class="card red reveal">
+            <div class="icon red">02</div>
+            <h2>Originalité</h2>
+            <p>Contrairement aux boutiques sportives classiques, BENART adopte une approche basée sur le storytelling, la personnalisation et l’exclusivité pour créer une valeur émotionnelle forte.</p>
+            <ul>
+              <li>Collections inspirées de moments emblématiques.</li>
+              <li>Designs originaux liés à la culture des tribunes.</li>
+              <li>Personnalisation avancée selon les préférences client.</li>
+              <li>Positionnement mode urbaine + merchandising + collector.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="collections">
+      <div class="container">
+        <div class="section-title reveal">
+          <div><span class="eyebrow">Expérience produit</span><h2>Collections à forte identité visuelle</h2></div>
+          <p>Chaque drop est pensé comme une mini-campagne : visuel fort, histoire courte, rareté et sentiment d’urgence.</p>
+        </div>
+        <div class="story-card">
+          <article class="drop reveal">
+            <img src="assets/benart-drop-raja.webp" alt="Collection verte BENART">
+            <div class="drop-body">
+              <span class="pill">RCA Spirit</span>
+              <h3>Odiamo Tutti · Green Smoke</h3>
+              <p>Une collection sombre, premium et explosive inspirée des tribunes vertes, des tifos et de l’énergie des ultras.</p>
+            </div>
+          </article>
+          <article class="drop reveal">
+            <img src="assets/benart-drop-wydad-placeholder.webp" alt="Illustration rouge pour collection BENART">
+            <div class="drop-body">
+              <span class="pill red">WAC Limited</span>
+              <h3>Winners Heritage · Red Fire</h3>
+              <p>Un univers rouge et noir construit autour de la victoire, de l’héritage et de la fierté des supporters. Remplacez cette illustration par votre photo rouge si vous voulez utiliser exactement le visuel original.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="innovation">
+      <div class="container">
+        <div class="section-title reveal">
+          <div><span class="eyebrow">Aspect novateur</span><h2>Produit premium + innovation digitale</h2></div>
+          <p>L’idée n’est pas une simple boutique : c’est une expérience e-commerce intelligente, immersive et communautaire.</p>
+        </div>
+        <div class="grid four">
+          <article class="card reveal"><div class="icon">★</div><h3>Éditions limitées</h3><p>Collections saisonnières et numérotées liées à l’actualité de la Botola Pro, aux derbys et aux moments marquants.</p></article>
+          <article class="card reveal"><div class="icon">AI</div><h3>Recommandation IA</h3><p>Suggestions personnalisées selon les clubs suivis, les couleurs préférées, le style et le comportement d’achat.</p></article>
+          <article class="card reveal"><div class="icon">AR</div><h3>Essayage virtuel</h3><p>Module de réalité augmentée pour visualiser la casquette avant l’achat et réduire l’hésitation client.</p></article>
+          <article class="card reveal"><div class="icon">✎</div><h3>Design génératif</h3><p>Outil assisté par IA pour générer des designs uniques à partir des inspirations et préférences du client.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="benchmark">
+      <div class="container">
+        <div class="section-title reveal">
+          <div><span class="eyebrow">Benchmark</span><h2>Positionnement face aux concurrents</h2></div>
+          <p>BENART occupe un espace encore peu exploité : plus émotionnel que les équipementiers, plus premium que les boutiques de clubs et plus local que les marques internationales.</p>
+        </div>
+        <div class="grid four reveal">
+          <article class="card"><h3>Directs nationaux</h3><p><b>HODHOD Concept</b> : lifestyle premium marocain.<br><b>Capslab Maroc</b> : casquettes collectors sous licences.</p></article>
+          <article class="card"><h3>Indirects nationaux</h3><p><b>Raja Shop, Wydad Shop, FRMF Store</b> : merchandising officiel, mais souvent standardisé.</p></article>
+          <article class="card"><h3>Directs internationaux</h3><p><b>New Era, Mitchell & Ness</b> : leaders du headwear sportif premium et heritage.</p></article>
+          <article class="card"><h3>Équipementiers</h3><p><b>Nike, Adidas, Puma, Under Armour</b> : puissance mondiale, mais faible storytelling local.</p></article>
+        </div>
+        <div class="tabs reveal" style="margin-top:26px" id="swotTabs"></div>
+        <div class="card reveal" id="swotContent"></div>
+      </div>
+    </section>
+
+    <section id="fonctionnalites">
+      <div class="container">
+        <div class="section-title reveal">
+          <div><span class="eyebrow">Analyse fonctionnelle</span><h2>Fonctionnalités web prioritaires</h2></div>
+          <p>La plateforme BENART doit combiner les standards e-commerce avec des fonctionnalités différenciantes : storytelling, IA, personnalisation et communauté.</p>
+        </div>
+        <input class="searchbox reveal" id="featureSearch" placeholder="Rechercher une fonctionnalité..." />
+        <div class="table-wrap reveal">
+          <table id="featureTable">
+            <thead><tr><th>Fonctionnalité</th><th>Importance</th><th>Objectif UX</th><th>BENART</th></tr></thead>
+            <tbody>
+              <tr><td>Catalogue produits structuré</td><td>Essentiel</td><td>Navigation claire par club, collection, couleur et style</td><td class="check">✓</td></tr>
+              <tr><td>Fiches produits détaillées</td><td>Essentiel</td><td>Photos visibles, histoire du drop, tailles, matières et disponibilité</td><td class="check">✓</td></tr>
+              <tr><td>Galerie images produit</td><td>Essentiel</td><td>Valoriser les détails de broderie, visière, patchs et packaging</td><td class="check">✓</td></tr>
+              <tr><td>Panier et paiement</td><td>Essentiel</td><td>Parcours d’achat simple avec paiement sécurisé</td><td class="check">✓</td></tr>
+              <tr><td>Suivi de commande</td><td>Important</td><td>Réduire l’anxiété client après achat</td><td class="check">✓</td></tr>
+              <tr><td>Wishlist / favoris</td><td>Important</td><td>Préparer les drops limités et relancer les clients</td><td class="check">✓</td></tr>
+              <tr><td>Newsletter</td><td>Important</td><td>Annoncer les drops, accès anticipé et offres personnalisées</td><td class="check">✓</td></tr>
+              <tr><td>Blog / storytelling éditorial</td><td>Différenciant</td><td>Raconter l’histoire derrière chaque collection</td><td class="check">✓</td></tr>
+              <tr><td>Collections limitées</td><td>Différenciant</td><td>Créer rareté, urgence et valeur collector</td><td class="check">✓</td></tr>
+              <tr><td>Personnalisation produit</td><td>Innovant</td><td>Créer un modèle unique selon le client</td><td class="check">✓</td></tr>
+              <tr><td>Recommandation IA</td><td>Innovant</td><td>Suggérer des modèles selon préférences et comportement</td><td class="check">✓</td></tr>
+              <tr><td>Génération design IA</td><td>Innovant</td><td>Transformer une inspiration supporter en concept visuel</td><td class="check">✓</td></tr>
+              <tr><td>Essayage virtuel AR</td><td>Premium</td><td>Visualiser la casquette avant l’achat</td><td class="check">✓</td></tr>
+              <tr><td>UX orientée storytelling</td><td>Stratégique</td><td>Transformer la boutique en univers de marque</td><td class="check">✓</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="faisabilite">
+      <div class="container">
+        <div class="section-title reveal">
+          <div><span class="eyebrow">Faisabilité industrielle</span><h2>Modèle OEM et sourcing multi-pays</h2></div>
+          <p>BENART se concentre sur le design, la marque, le marketing et la vente. La fabrication est confiée à des partenaires industriels spécialisés.</p>
+        </div>
+        <div class="process reveal">
+          <div class="step"><div class="n">1</div><h3>Conception</h3><p>Direction artistique, motifs, patchs, broderie, packaging et storytelling.</p></div>
+          <div class="step"><div class="n">2</div><h3>Prototype</h3><p>Validation des matières, formes, couleurs, finitions et numérotation.</p></div>
+          <div class="step"><div class="n">3</div><h3>Production OEM</h3><p>Snapback, Trucker, Dad Cap, broderie 2D/3D, étiquettes et packaging.</p></div>
+          <div class="step"><div class="n">4</div><h3>Contrôle & drop</h3><p>Contrôle qualité, shooting, mise en ligne et lancement limité.</p></div>
+        </div>
+        <div class="grid three" style="margin-top:20px">
+          <article class="card supplier reveal"><span class="flag">🇲🇦</span><strong>Maroc</strong><small>Idéal pour tests de marché, petites séries, contrôle direct et délais courts. Limite : expertise premium structurée plus faible.</small><div class="score"><i style="--w:72%"></i></div></article>
+          <article class="card supplier reveal"><span class="flag">🇹🇷</span><strong>Turquie</strong><small>Meilleur équilibre global : qualité textile, flexibilité, MOQ moyens et bon rapport qualité/prix.</small><div class="score"><i style="--w:88%"></i></div></article>
+          <article class="card supplier reveal"><span class="flag">🇨🇳</span><strong>Chine</strong><small>Appropriée pour l’industrialisation à grande échelle, coûts compétitifs et personnalisation totale.</small><div class="score"><i style="--w:82%"></i></div></article>
+        </div>
+
+        <div class="section-title reveal" style="margin-top:70px">
+          <div><span class="eyebrow">Faisabilité technique</span><h2>Équipe, outils et technologies</h2></div>
+          <p>La réussite dépend d’une équipe hybride : création produit, branding, digital, e-commerce, contenu et production.</p>
+        </div>
+        <div class="grid two">
+          <div class="accordion reveal" id="teamAcc">
+            <div class="acc open"><button>Création produit & production <span>+</span></button><div class="content"><div class="content-inner">Designer produit, directeur artistique, designer graphique, responsable production textile, contrôle qualité, approvisionnement. Leur rôle : créer les collections, suivre les fournisseurs et garantir les finitions.</div></div></div>
+            <div class="acc"><button>Communication digitale & branding <span>+</span></button><div class="content"><div class="content-inner">Brand manager, content creator, photographe/vidéaste, copywriter, community manager, social media manager, relations publiques et partenariats. Leur rôle : construire l’univers culturel de BENART.</div></div></div>
+            <div class="acc"><button>Digital & e-commerce <span>+</span></button><div class="content"><div class="content-inner">Développeur full-stack, UI/UX designer, responsable e-commerce, spécialiste SEO/marketing digital. Leur rôle : créer une boutique performante, claire, sécurisée et orientée conversion.</div></div></div>
+          </div>
+          <article class="card reveal">
+            <h3>Stack technologique recommandée</h3>
+            <div class="tag-list">
+              <span class="tag">Shopify / WooCommerce / PrestaShop</span><span class="tag">CRM</span><span class="tag">Gestion stock</span><span class="tag">Paiement sécurisé</span><span class="tag">SSL</span><span class="tag">Google Analytics</span><span class="tag">Search Console</span><span class="tag">Meta Business Suite</span><span class="tag">Chatbot IA</span><span class="tag">Figma</span><span class="tag">Adobe Illustrator</span><span class="tag">Photoshop</span><span class="tag">Wilcom / Hatch</span><span class="tag">CDN</span><span class="tag">Sauvegardes</span>
+            </div>
+            <p style="margin-top:18px">La technologie doit soutenir le storytelling, la personnalisation, la conversion, l’analyse des comportements d’achat et la fidélisation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="finance">
+      <div class="container">
+        <div class="section-title reveal">
+          <div><span class="eyebrow">Étude financière</span><h2>Budget initial de lancement</h2></div>
+          <p>Le budget combine les ressources humaines, les prototypes, la production initiale, le contenu, le marketing et les outils numériques.</p>
+        </div>
+        <div class="budget-layout">
+          <article class="chart-card reveal">
+            <h3>Répartition du budget BENART</h3>
+            <canvas id="budgetChart" width="640" height="330" aria-label="Graphique budget"></canvas>
+            <div class="big-total"><span>Total estimé</span><strong>≈ 256 000 MAD</strong></div>
+          </article>
+          <div class="grid two">
+            <article class="card reveal"><div class="icon">RH</div><h3>Ressources humaines</h3><p><b>245 JH</b> pour le pilotage, design, développement web, création de contenu, community management, storytelling et production.</p><h3>104 000 MAD</h3></article>
+            <article class="card reveal"><div class="icon red">↗</div><h3>Logistique & lancement</h3><p>Marchandises, prototypes, packaging, stockage, livraison, shooting, campagnes marketing et outils numériques.</p><h3>152 000 MAD</h3></article>
+            <article class="card reveal"><h3>Coûts clés</h3><ul><li>Première production : 50 000 MAD</li><li>Marketing lancement : 25 000 MAD</li><li>Packaging : 15 000 MAD</li><li>Production contenu : 15 000 MAD</li></ul></article>
+            <article class="card reveal"><h3>Lecture business</h3><p>Le coût le plus critique est le lancement : il faut financer à la fois le stock, le marketing et la crédibilité visuelle de la marque.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="communication">
+      <div class="container">
+        <div class="section-title reveal">
+          <div><span class="eyebrow">Stratégie de communication</span><h2>Créer une communauté, pas seulement vendre</h2></div>
+          <p>La communication BENART repose sur l’identité de marque, l’émotion, les drops limités, les réseaux sociaux et les contenus participatifs.</p>
+        </div>
+        <div class="comm-grid reveal">
+          <article class="comm-card"><h3>Partenariats</h3><p>Créateurs football, influenceurs marocains, pages sportives, clubs, associations et événements liés à la Botola Pro.</p></article>
+          <article class="comm-card"><h3>Ambassadeurs</h3><p>Supporters, anciens joueurs, artistes streetwear et profils proches de l’univers BENART.</p></article>
+          <article class="comm-card"><h3>Storytelling social</h3><p>Reels, TikTok, YouTube, interviews, making-of, histoire des clubs, culture ultras et moments historiques.</p></article>
+          <article class="comm-card"><h3>Campagnes digitales</h3><p>Publicités ciblées autour des drops limités, de l’urgence et des collections exclusives.</p></article>
+          <article class="comm-card"><h3>SEO + GEO</h3><p>Articles et pages optimisées pour moteurs de recherche classiques et assistants IA génératifs.</p></article>
+          <article class="comm-card"><h3>Communauté & UGC</h3><p>Votes pour les prochains designs, concours, hashtags, contenus générés par les utilisateurs et newsletters.</p></article>
+        </div>
+        <div class="timeline" style="margin-top:24px">
+          <div class="milestone reveal"><time>Mois 1</time><div><h4>Pré-lancement</h4><p>Teasing, storytelling de marque, liste d’attente, moodboards et sondages supporters.</p></div></div>
+          <div class="milestone reveal"><time>Mois 2</time><div><h4>Premier drop</h4><p>Shooting premium, compte à rebours, lancement limité et campagne influence.</p></div></div>
+          <div class="milestone reveal"><time>Mois 3</time><div><h4>Communauté</h4><p>UGC, concours, vote pour la prochaine collection, newsletter et accès anticipé.</p></div></div>
+          <div class="milestone reveal"><time>Mois 4+</time><div><h4>Scale</h4><p>Partenariats, pop-up stores, collaboration clubs/supporters et optimisation SEO/GEO.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="risques">
+      <div class="container">
+        <div class="section-title reveal">
+          <div><span class="eyebrow">Limites & contraintes</span><h2>Les défis à maîtriser</h2></div>
+          <p>La principale difficulté n’est pas seulement la fabrication : c’est la construction d’une marque culturelle marocaine crédible, respectueuse et rentable.</p>
+        </div>
+        <div class="risk reveal">
+          <div class="risk-item"><b>Compétences métier</b><p>Maîtriser textile, casquettes, gestion marque streetwear, e-commerce et culture supporters.</p></div>
+          <div class="risk-item"><b>Littératie numérique</b><p>Développer les compétences en marketing digital, SEO/GEO, IA, analyse data et social media.</p></div>
+          <div class="risk-item"><b>Adaptation culturelle</b><p>Adapter une inspiration internationale au contexte marocain sans copier un modèle étranger.</p></div>
+          <div class="risk-item"><b>Storytelling</b><p>Créer des récits forts, documentés, authentiques et cohérents pour chaque collection.</p></div>
+          <div class="risk-item"><b>Partenariats clubs/ultras</b><p>Gérer les droits, autorisations et relations avec les communautés sans perception de récupération commerciale.</p></div>
+          <div class="risk-item"><b>Financement</b><p>Assurer le capital initial pour stock, plateforme e-commerce, contenu, marketing et logistique.</p></div>
+          <div class="risk-item"><b>Production</b><p>Garantir qualité constante, délais raisonnables et marges malgré le coût de fabrication locale.</p></div>
+          <div class="risk-item"><b>Concurrence</b><p>Se différencier face aux marques internationales, produits importés et merchandising officiel.</p></div>
+        </div>
+        <article class="card reveal" style="margin-top:22px;border-color:rgba(255,36,56,.25)">
+          <h3>Note juridique importante</h3>
+          <p>Pour un lancement réel, BENART doit éviter d’utiliser des logos, symboles ou visuels officiels de clubs sans autorisation. La stratégie la plus sûre est de créer des designs inspirés de la culture footballistique, ou de négocier des collaborations/licences officielles.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="conclusion">
+      <div class="container">
+        <div class="card reveal" style="padding:34px;border-color:rgba(19,214,111,.3)">
+          <span class="eyebrow">Conclusion</span>
+          <h2>BENART peut devenir une marque culturelle, pas une simple boutique.</h2>
+          <p style="font-size:1.1rem;max-width:950px">Le projet se positionne dans une zone encore peu occupée au Maroc : casquettes premium, storytelling footballistique, collections limitées, personnalisation et innovation digitale. La réussite dépendra de la qualité des designs, de l’authenticité du storytelling, du contrôle industriel et de la capacité à créer une communauté fidèle autour de la culture du supporter marocain.</p>
+          <div class="cta-row" style="margin-top:22px"><a class="btn primary" href="#home">Revoir depuis le début ↑</a><button class="btn secondary" onclick="window.print()">Exporter en PDF</button></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div style="display:flex;align-items:center;gap:14px"><img src="assets/benart-logo.webp" alt="BENART"><span>Portfolio interactif BENART Morocco · 2026</span></div>
+      <span>Designed for GitHub Pages</span>
+    </div>
+  </footer>
+  <a href="#home" class="to-top" id="toTop" aria-label="Retour en haut">↑</a>
+
+  <script>
+    const $ = (q,root=document)=>root.querySelector(q);
+    const $$ = (q,root=document)=>Array.from(root.querySelectorAll(q));
+
+    // Mobile menu
+    $('#menuBtn')?.addEventListener('click',()=>$('#links').classList.toggle('open'));
+    $$('#links a').forEach(a=>a.addEventListener('click',()=>$('#links').classList.remove('open')));
+
+    // Progress and top button
+    const progress = $('#progress'), toTop = $('#toTop');
+    function onScroll(){
+      const h = document.documentElement.scrollHeight - innerHeight;
+      const p = h ? scrollY / h * 100 : 0;
+      progress.style.width = p + '%';
+      toTop.classList.toggle('show', scrollY > 650);
+    }
+    addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+    },{threshold:.13});
+    $$('.reveal').forEach(el=>io.observe(el));
+
+    // Active navigation
+    const sections = $$('main section[id]');
+    const navLinks = $$('.links a');
+    const navIO = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+        }
+      })
+    },{rootMargin:'-45% 0px -50% 0px'});
+    sections.forEach(s=>navIO.observe(s));
+
+    // Count up numbers
+    function countUp(el){
+      const target = Number(el.dataset.target || 0); let cur = 0; const step = Math.max(1, Math.ceil(target/44));
+      const tick = ()=>{ cur += step; if(cur >= target){ el.textContent = target; } else { el.textContent = cur; requestAnimationFrame(tick); } };
+      tick();
+    }
+    const countIO = new IntersectionObserver((entries)=>entries.forEach(e=>{ if(e.isIntersecting){ countUp(e.target); countIO.unobserve(e.target); }}));
+    $$('.count').forEach(el=>countIO.observe(el));
+
+    // SWOT data
+    const swotData = {
+      'HODHOD': {
+        f:['Spécialiste marocain des casquettes','Identité de marque locale forte','Catalogue varié','Prix accessibles'],
+        w:['Pas de lien avec le football','Absence de storytelling sportif','Peu de différenciation émotionnelle','Pas de collections événementielles'],
+        o:['Croissance du lifestyle au Maroc','Développement e-commerce marocain','Export potentiel','Expansion vers le premium'],
+        t:['Arrivée de marques internationales','Concurrence mode urbaine','Évolution rapide des tendances','Produits importés moins chers']
+      },
+      'Capslab': {
+        f:['Produits premium sous licences','Forte identité visuelle','Positionnement collectionneur','Design créatif'],
+        w:['Dépendance aux licences','Prix élevés','Peu ancré localement','Peu de personnalisation'],
+        o:['Croissance du marché collector','Expansion internationale','Merchandising sportif','Nouveaux partenariats'],
+        t:['Coût élevé des licences','Concurrence New Era','Contrefaçon','Saturation du marché']
+      },
+      'Boutiques clubs': {
+        f:['Marque officielle','Forte communauté de supporters','Légitimité institutionnelle','Produits authentiques'],
+        w:['Produits standardisés','Peu d’innovation produit','Faible storytelling produit','Peu de casquettes premium'],
+        o:['Développement e-commerce sportif','Croissance des fans digitaux','Merchandising lifestyle','Produits collectors'],
+        t:['Contrefaçon','Marques alternatives','Saturation locale','Désengagement génération Z']
+      },
+      'FRMF Store': {
+        f:['Soutien institutionnel fort','Produits officiels','Visibilité médiatique','Distribution officielle'],
+        w:['Offre limitée à l’équipe nationale','Peu de produits lifestyle','Faible innovation digitale','Peu de storytelling'],
+        o:['Coupe du Monde 2030','Merchandising global','Expansion internationale','Fans digitaux'],
+        t:['Concurrence marques privées','Fluctuation sportive','Saturation du marché','Évolution attentes consommateurs']
+      },
+      'New Era': {
+        f:['Leader mondial des casquettes','Licences officielles fortes','Image de marque très forte','Large distribution'],
+        w:['Prix élevés','Peu adapté aux marchés locaux','Production standardisée','Peu de personnalisation poussée'],
+        o:['Expansion sport mondial','Merchandising digital','Nouvelles collaborations','Streetwear en croissance'],
+        t:['Contrefaçon massive','Concurrence niche','Marques alternatives','Saturation globale']
+      },
+      'BENART': {
+        f:['Storytelling football marocain','Collections limitées','Personnalisation IA','Positionnement premium local'],
+        w:['Jeune marque sans notoriété','Besoin de financement initial','Dépendance fournisseurs','Nécessité de droits/licences'],
+        o:['Marché fan commerce peu exploité','Culture supporters très forte','SEO/GEO et IA','Collaborations Botola Pro'],
+        t:['Contrefaçon','Concurrence internationale','Coûts production locale','Sensibilité des communautés ultras']
+      }
+    };
+    const swotTabs = $('#swotTabs'), swotContent = $('#swotContent');
+    function renderSwot(name){
+      const d = swotData[name];
+      swotTabs.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.name===name));
+      swotContent.innerHTML = `<h3>Analyse SWOT · ${name}</h3><div class="swot-grid">
+        <div class="swot-box"><h4>Forces</h4><ul>${d.f.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+        <div class="swot-box"><h4>Faiblesses</h4><ul>${d.w.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+        <div class="swot-box"><h4>Opportunités</h4><ul>${d.o.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+        <div class="swot-box"><h4>Menaces</h4><ul>${d.t.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      </div>`;
+    }
+    Object.keys(swotData).forEach((name,i)=>{
+      const b=document.createElement('button'); b.className='tab'; b.dataset.name=name; b.textContent=name; b.addEventListener('click',()=>renderSwot(name)); swotTabs.appendChild(b);
+      if(i===0) setTimeout(()=>renderSwot(name));
+    });
+
+    // Feature search
+    $('#featureSearch')?.addEventListener('input',e=>{
+      const q=e.target.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+      $$('#featureTable tbody tr').forEach(tr=>{
+        const t=tr.innerText.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+        tr.style.display=t.includes(q)?'':'none';
+      });
+    });
+
+    // Accordion
+    $$('.acc button').forEach(btn=>btn.addEventListener('click',()=>{
+      const item=btn.closest('.acc');
+      item.classList.toggle('open');
+    }));
+
+    // Canvas budget chart, no dependency
+    function drawBudget(){
+      const c=$('#budgetChart'); if(!c) return;
+      const ctx=c.getContext('2d'); const W=c.width, H=c.height; ctx.clearRect(0,0,W,H);
+      const data=[{label:'Ressources humaines',value:104,color:'#13d66f'},{label:'Logistique & lancement',value:152,color:'#ff2438'}];
+      const total=data.reduce((s,d)=>s+d.value,0); let start=-Math.PI/2; const cx=170, cy=155, r=105;
+      data.forEach(d=>{ const a=d.value/total*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+a); ctx.closePath(); ctx.fillStyle=d.color; ctx.fill(); start+=a; });
+      ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(cx,cy,58,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over';
+      ctx.fillStyle='#ffffff'; ctx.font='700 22px system-ui'; ctx.textAlign='center'; ctx.fillText('256K',cx,cy+3); ctx.font='500 12px system-ui'; ctx.fillStyle='#a9b8ad'; ctx.fillText('MAD',cx,cy+24);
+      data.forEach((d,i)=>{ const y=95+i*82; ctx.fillStyle=d.color; ctx.fillRect(340,y,22,22); ctx.fillStyle='#ffffff'; ctx.font='700 18px system-ui'; ctx.textAlign='left'; ctx.fillText(d.label,374,y+18); ctx.fillStyle='#a9b8ad'; ctx.font='500 15px system-ui'; ctx.fillText(d.value+' 000 MAD · '+Math.round(d.value/total*100)+'%',374,y+44); });
+    }
+    drawBudget(); addEventListener('resize',drawBudget);
+  </script>
+</body>
+</html>
